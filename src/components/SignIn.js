@@ -1,19 +1,44 @@
 import React from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import HeroLandingImage from "../assets/images/landing-page-image.jpeg";
 
 const SignIn = () => {
 	return (
 		<div className="d-flex flex-column">
-			<div className="sign-in">
-				<Container className="d-flex h-50">
-					<div className="w-75 text-center align-middle py-5 w-75">
-						<h1 style={{ fontSize: "50px" }} className="text-white">
-							ClickEase
-						</h1>
-						<h4 className="text-white">Shop anything you need.</h4>
+			<header
+				style={{ backgroundColor: "#3ec167" }}
+				className="p-3 text-white"
+			>
+				<Container>
+					<a
+						href="/"
+						className="fw-bold text-white text-decoration-none"
+					>
+						ClickEase
+					</a>
+				</Container>
+			</header>
+			<div className="sign-in bg-white">
+				<Container className="d-flex" style={{ height: "500px" }}>
+					<div
+						style={{ fontSize: "50px", color: "#6BCF8B" }}
+						className="landing-hero w-75 align-middle"
+					>
+						<h1 style={{ opacity: "1", zIndex: "3" }}>ClickEase</h1>
+						<h4 style={{ opacity: "1", zIndex: "3" }}>
+							Shop anything you need.
+						</h4>
 					</div>
-					<Form className="bg-light py-3 px-4 d-flex flex-column rounded w-25">
-						<div className="mb-3 fw-bold fs-4">Log In</div>
+					<Form
+						className="bg-light py-3 px-4 d-flex flex-column rounded shadow m-auto"
+						style={{ height: "270px" }}
+					>
+						<div
+							style={{ color: "#6BCF8B" }}
+							className="mb-3 fw-bold fs-4"
+						>
+							Log In
+						</div>
 						<Form.Group controlId="email" className="mb-3">
 							<Form.Control
 								required
@@ -50,12 +75,18 @@ const SignIn = () => {
 					</Form>
 				</Container>
 			</div>
-			<footer>
+			<footer className="text-center p-3 mt-auto bg-light">
+				<p style={{ fontSize: "0.8rem" }}>
+					<a href="https://www.freepik.com/free-vector/hands-with-money-flat-composition-with-female-hands-holding-discount-cards-coin-stacks-smartphone-shopping-bags-vector-illustration_37917159.htm#query=online%20shopping&position=7&from_view=keyword&track=ais&uuid=dd09d2fb-aeda-408e-88e3-0e125ab216bd">
+						Image by macrovector
+					</a>
+					on Freepik
+				</p>
 				<p
 					style={{ fontSize: "0.8rem" }}
-					className="text-center p-3 mt-auto"
+					// className="text-center p-3 mt-auto"
 				>
-					&copy; 2024 Shopee. All Rights Reserved.
+					&copy; 2024 ClickEase. All Rights Reserved.
 				</p>
 			</footer>
 		</div>
