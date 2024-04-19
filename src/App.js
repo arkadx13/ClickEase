@@ -1,14 +1,16 @@
-import Header from "./components/Header";
+import Header from "./components/Header-orig";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
-// import "./App.css";
+import SignIn from "./components/SignIn";
+import "./App.css";
 
 function App() {
 	return (
 		<div className="App">
-			<Header />
-			{/* <Home />
+			{/* <Header />
+			<Home />
 			<Cart /> */}
+			<SignIn />
 		</div>
 	);
 }
