@@ -7,19 +7,3 @@
 	font-family: "Roboto", sans-serif;
 	/* outline: 1px solid red; */
 }
-
-.sign-in {
-	/* background-color: #3ec167; */
-	padding: 30px 0;
-	/* height: 100vh; */
-	/* background-image: linear-gradient(to top, #ffffff 0%, #3ec167 100%); */
-}
-
-.landing-hero {
-	background-size: cover;
-	background-image: url(/src/assets/images/landing-page-image.jpeg);
-	background-repeat: no-repeat;
-	background-size: 700px auto;
-	opacity: 0.9;
-	/* z-index: 0; */
-}

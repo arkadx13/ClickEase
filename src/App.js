@@ -1,7 +1,7 @@
 import Header from "./components/Header-orig";
 import Home from "./components/Home";
 import Cart from "./components/Cart";
-import SignIn from "./components/SignIn";
+import LandingPage from "./components/LandingPage";
 import "./App.css";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
 			{/* <Header />
 			<Home />
 			<Cart /> */}
-			<SignIn />
+			<LandingPage />
 		</div>
 	);
 }
