@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
-const SignIn = () => {
+const LogIn = () => {
 	const [validated, setValidated] = useState(false);
 
 	const handleSubmit = (event) => {
@@ -45,10 +45,10 @@ const SignIn = () => {
 				Log In
 			</Button>
 			<p style={{ fontSize: "0.7rem" }} className="text-center">
-				New to ClickEase? <a href="/">Sign Up</a>
+				New to ClickEase? <a href="/signup">Sign Up</a>
 			</p>
 		</Form>
 	);
 };
 
-export default SignIn;
+export default LogIn;

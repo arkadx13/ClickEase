@@ -1,10 +1,12 @@
-import React from "react";
+import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import HeroLandingImage from "../assets/images/landing-page-image.jpeg";
-import SignIn from "./SignIn";
+import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 
-const LandingPage = () => {
+const LandingPage = ({ signingIn }) => {
+	const [isSigningIn, setIsSigningIn] = useState(signingIn);
+
 	return (
 		<div className="d-flex flex-column">
 			<header
@@ -53,15 +55,14 @@ const LandingPage = () => {
 							alt="illustration of female hands holding discount cards coin stacks smartphone shopping bags"
 						/>
 					</div>
-					{/* <SignIn /> */}
-					<SignUp />
+					{isSigningIn ? <LogIn /> : <SignUp />}
 				</Container>
 			</div>
 			<footer className="text-center p-3 mt-auto bg-light pt-5">
 				<p style={{ fontSize: "0.8rem" }}>
 					<a href="https://www.freepik.com/free-vector/hands-with-money-flat-composition-with-female-hands-holding-discount-cards-coin-stacks-smartphone-shopping-bags-vector-illustration_37917159.htm#query=online%20shopping&position=7&from_view=keyword&track=ais&uuid=dd09d2fb-aeda-408e-88e3-0e125ab216bd">
 						Image by macrovector
-					</a>
+					</a>{" "}
 					on Freepik
 				</p>
 				<p style={{ fontSize: "0.8rem" }}>
