@@ -7,10 +7,16 @@ function App() {
 	const appRouter = createBrowserRouter([
 		{
 			path: "/",
+			element: <LandingPage signingIn={true} />,
+		},
+		{
+			path: "/signup",
+			element: <LandingPage signingIn={false} />,
+		},
+		{
+			path: "/browse",
 			element: <Home />,
 		},
-		{ path: "/signup", element: <LandingPage signingIn={false} /> },
-		{ path: "/login", element: <LandingPage signingIn={true} /> },
 	]);
 	return (
 		<div className="App">

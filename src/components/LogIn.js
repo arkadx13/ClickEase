@@ -1,38 +1,59 @@
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { validate } from "../utils/validateForm";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const LogIn = () => {
 	const [errors, setErrors] = useState({});
 
 	const handleSubmit = (event) => {
-		const { email, password } = event.target.elements;
+		event.preventDefault();
 
-		const formErrors = validate(
+		const { email, password } = event.target.elements;
+		const userEmail = email.value.trim();
+		const userPassword = password.value;
+
+		// validate form inputs
+		const formValidated = validate(
+			"Log In",
 			null,
 			null,
-			email.value.trim(),
-			password.value,
+			userEmail,
+			userPassword,
 			null
 		);
+		console.log("Login formValidated", formValidated);
 
-		if (formErrors === true) {
-			// Submit the form
-			alert("form submitted");
+		if (formValidated === true) {
+			// Submit the form and Log In
+			signInWithEmailAndPassword(auth, userEmail, userPassword)
+				.then((userCredential) => {
+					// Signed in
+					const user = userCredential.user;
+					console.log(user);
+				})
+				.catch((error) => {
+					const errorCode = error.code;
+					const errorMessage = error.message;
+					setErrors({
+						logInError: errorMessage,
+					});
+				});
+			alert("Logging In");
 		} else {
 			//there are errors
-			event.preventDefault();
-			setErrors(formErrors);
+			setErrors(formValidated);
 			return;
 		}
-		console.log("errorObject", errors);
 	};
 	return (
 		<Form
 			className="bg-light py-3 px-4 d-flex flex-column rounded shadow m-auto z-index-3"
 			style={{
-				maxWidth: "350px",
 				minWidth: "320px",
+				width: "350px",
+				maxWidth: "350px",
 				minheight: "270px",
 				zIndex: "3",
 			}}
@@ -63,6 +84,14 @@ const LogIn = () => {
 					</p>
 				)}
 			</Form.Group>
+			{errors["logInError"] && (
+				<p
+					style={{ fontSize: "0.8em" }}
+					className="text-danger text-center"
+				>
+					{errors["logInError"]}
+				</p>
+			)}
 			<Button
 				style={{ backgroundColor: "#51C776" }}
 				className="mb-3"

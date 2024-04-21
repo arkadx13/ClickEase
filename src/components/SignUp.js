@@ -1,44 +1,64 @@
 import { useState } from "react";
 import { Col, Button, Form, Row } from "react-bootstrap";
 import { validate } from "../utils/validateForm";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const SignUp = () => {
 	const [errors, setErrors] = useState({});
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+
 		const { first_name, last_name, email, password, confirm_password } =
 			event.target.elements;
-		console.log("event.target.elements", event.target.elements);
-		console.log(first_name.value);
-		console.log(last_name.value);
-		console.log(email.value);
-		console.log(password.value);
-		console.log(confirm_password.value);
+		const userEmail = email.value.trim();
+		const userPassword = password.value.trim();
 
-		const formErrors = validate(
+		// validate form inputs
+		const formValidated = validate(
+			"Sign Up",
 			first_name.value.trim(),
 			last_name.value.trim(),
-			email.value.trim(),
-			password.value,
+			userEmail,
+			userPassword,
 			confirm_password.value
 		);
 
-		if (formErrors === true) {
-			// Submit the form
-			alert("form submitted");
+		if (formValidated === true) {
+			// Submit the form && create new user
+			createUserWithEmailAndPassword(auth, userEmail, userPassword)
+				.then((userCredential) => {
+					// Signed up
+					const user = userCredential.user;
+					console.log(user);
+				})
+				.catch((error) => {
+					const errorCode = error.code;
+					const errorMessage = error.message;
+					// set Sign Up error
+					setErrors({
+						signUpError: errorMessage,
+					});
+				});
+
+			alert("Signing up");
 		} else {
 			//there are errors
-			setErrors(formErrors);
+			setErrors(formValidated);
 			return;
 		}
-		console.log("errorObject", errors);
 	};
 
 	return (
 		<Form
 			className="bg-light p-4 d-flex flex-column rounded shadow m-auto"
-			style={{ maxWidth: "350px", minHeight: "343px", zIndex: "3" }}
+			style={{
+				maxWidth: "350px",
+				minWidth: "320px",
+				minHeight: "343px",
+				zIndex: "3",
+			}}
 			onSubmit={handleSubmit}
 		>
 			<div style={{ color: "#6BCF8B" }} className="mb-3 fw-bold fs-4">
@@ -105,6 +125,14 @@ const SignUp = () => {
 					</p>
 				)}
 			</Form.Group>
+			{errors["signUpError"] && (
+				<p
+					style={{ fontSize: "0.8em" }}
+					className="text-danger text-center"
+				>
+					{errors["signUpError"]}
+				</p>
+			)}
 			<Button
 				style={{ backgroundColor: "#51C776" }}
 				className="mb-3"
@@ -113,7 +141,7 @@ const SignUp = () => {
 				Sign Up
 			</Button>
 			<p style={{ fontSize: "0.7rem" }} className="text-center">
-				Already registered? <a href="/login">Log In</a>
+				Already registered? <a href="/">Log In</a>
 			</p>
 		</Form>
 	);
