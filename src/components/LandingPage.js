@@ -1,25 +1,13 @@
-import { useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import HeroLandingImage from "../assets/images/landing-page-image.jpeg";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
+import Header from "./Header";
 
 const LandingPage = ({ signingIn }) => {
 	return (
 		<div className="d-flex flex-column">
-			<header
-				style={{ backgroundColor: "#3ec167" }}
-				className="p-3 text-white"
-			>
-				<Container>
-					<a
-						href="/"
-						className="fw-bold text-white fs-4 text-decoration-none"
-					>
-						ClickEase
-					</a>
-				</Container>
-			</header>
+			<Header />
 			<div className="my-3">
 				<Container className="d-flex" style={{ height: "500px" }}>
 					<div

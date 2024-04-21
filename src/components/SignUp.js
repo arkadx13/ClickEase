@@ -3,13 +3,11 @@ import { Col, Button, Form, Row } from "react-bootstrap";
 import { validate } from "../utils/validateForm";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
-import { useNavigate } from "react-router-dom";
 import UserIcon from "../assets/images/user-icon.png";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
 const SignUp = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const [errors, setErrors] = useState({});
 
@@ -58,9 +56,6 @@ const SignUp = () => {
 									photoURL: photoURL,
 								})
 							);
-
-							// redirect to home page
-							navigate("/home");
 						})
 						.catch((error) => {
 							// An error occurred
