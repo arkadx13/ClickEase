@@ -1,27 +1,13 @@
-import Home from "./components/Home";
-import LandingPage from "./components/LandingPage";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import Body from "./components/Body";
+import appStore from "./utils/appStore";
 import "./App.css";
 
 function App() {
-	const appRouter = createBrowserRouter([
-		{
-			path: "/",
-			element: <LandingPage signingIn={true} />,
-		},
-		{
-			path: "/signup",
-			element: <LandingPage signingIn={false} />,
-		},
-		{
-			path: "/browse",
-			element: <Home />,
-		},
-	]);
 	return (
-		<div className="App">
-			<RouterProvider router={appRouter} />
-		</div>
+		<Provider store={appStore}>
+			<Body />
+		</Provider>
 	);
 }
 
