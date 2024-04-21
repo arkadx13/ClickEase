@@ -7,3 +7,52 @@
 	font-family: "Roboto", sans-serif;
 	/* outline: 1px solid red; */
 }
+
+form.search {
+	color: #555;
+	display: flex;
+	padding: 2px;
+	border-radius: 15px;
+}
+
+input[type="search"] {
+	border: none;
+	background: #ffffff;
+	margin: 0;
+	padding: 7px 8px;
+	font-size: 14px;
+	color: inherit;
+	border: 1px solid transparent;
+	border-top-left-radius: 15px;
+	border-bottom-left-radius: 15px;
+	width: 300px;
+}
+
+input[type="search"]::placeholder {
+	color: #b0b0b0;
+}
+
+form.search button[type="submit"] {
+	overflow: hidden;
+	width: 60px;
+	font-size: small;
+	margin: 0;
+	border: 1px solid transparent;
+	background: #f3f3f3;
+	color: #000000;
+	cursor: pointer;
+	opacity: 1;
+	border-top-right-radius: 15px;
+	border-bottom-right-radius: 15px;
+}
+
+form.search button[type="submit"]:hover {
+	opacity: 0.7;
+}
+
+form.search button[type="submit"]:focus,
+input[type="search"]:focus {
+	box-shadow: 0 0 3px 0 #1183d6;
+	border-color: #1183d6;
+	outline: none;
+}

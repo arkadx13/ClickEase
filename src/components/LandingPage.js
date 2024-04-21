@@ -5,8 +5,6 @@ import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 
 const LandingPage = ({ signingIn }) => {
-	const [isSigningIn, setIsSigningIn] = useState(signingIn);
-
 	return (
 		<div className="d-flex flex-column">
 			<header
@@ -55,7 +53,7 @@ const LandingPage = ({ signingIn }) => {
 							alt="illustration of female hands holding discount cards coin stacks smartphone shopping bags"
 						/>
 					</div>
-					{isSigningIn ? <LogIn /> : <SignUp />}
+					{signingIn ? <LogIn /> : <SignUp />}
 				</Container>
 			</div>
 			<footer className="text-center p-3 mt-auto bg-light pt-5">

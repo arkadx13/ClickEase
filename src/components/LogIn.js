@@ -3,8 +3,10 @@ import { Button, Form } from "react-bootstrap";
 import { validate } from "../utils/validateForm";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
 
 const LogIn = () => {
+	const navigate = useNavigate();
 	const [errors, setErrors] = useState({});
 
 	const handleSubmit = (event) => {
@@ -31,16 +33,17 @@ const LogIn = () => {
 				.then((userCredential) => {
 					// Signed in
 					const user = userCredential.user;
-					console.log(user);
+
+					// redirect to home page
+					navigate("/home");
 				})
 				.catch((error) => {
 					const errorCode = error.code;
 					const errorMessage = error.message;
 					setErrors({
-						logInError: errorMessage,
+						logInError: error.code,
 					});
 				});
-			alert("Logging In");
 		} else {
 			//there are errors
 			setErrors(formValidated);

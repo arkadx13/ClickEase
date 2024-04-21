@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { Col, Button, Form, Row } from "react-bootstrap";
 import { validate } from "../utils/validateForm";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import UserIcon from "../assets/images/user-icon.png";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const SignUp = () => {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [errors, setErrors] = useState({});
 
 	const handleSubmit = (event) => {
@@ -12,17 +18,20 @@ const SignUp = () => {
 
 		const { first_name, last_name, email, password, confirm_password } =
 			event.target.elements;
+		const userFirstName = first_name.value.trim();
+		const userLastName = last_name.value.trim();
 		const userEmail = email.value.trim();
-		const userPassword = password.value.trim();
+		const userPassword = password.value;
+		const confirmPassword = confirm_password.value;
 
 		// validate form inputs
 		const formValidated = validate(
 			"Sign Up",
-			first_name.value.trim(),
-			last_name.value.trim(),
+			userFirstName,
+			userLastName,
 			userEmail,
 			userPassword,
-			confirm_password.value
+			confirmPassword
 		);
 
 		if (formValidated === true) {
@@ -31,7 +40,34 @@ const SignUp = () => {
 				.then((userCredential) => {
 					// Signed up
 					const user = userCredential.user;
-					console.log(user);
+
+					// Update user's profile information
+					updateProfile(auth.currentUser, {
+						displayName: userFirstName + " " + userLastName,
+						photoURL: UserIcon,
+					})
+						.then(() => {
+							// Profile updated!
+							const { uid, email, displayName, photoURL } =
+								auth.currentUser;
+							dispatch(
+								addUser({
+									uid: uid,
+									email: email,
+									displayName: displayName,
+									photoURL: photoURL,
+								})
+							);
+
+							// redirect to home page
+							navigate("/home");
+						})
+						.catch((error) => {
+							// An error occurred
+							setErrors({
+								profileUpdateError: error,
+							});
+						});
 				})
 				.catch((error) => {
 					const errorCode = error.code;
@@ -41,8 +77,6 @@ const SignUp = () => {
 						signUpError: errorMessage,
 					});
 				});
-
-			alert("Signing up");
 		} else {
 			//there are errors
 			setErrors(formValidated);
@@ -131,6 +165,14 @@ const SignUp = () => {
 					className="text-danger text-center"
 				>
 					{errors["signUpError"]}
+				</p>
+			)}
+			{errors["profileUpdateError"] && (
+				<p
+					style={{ fontSize: "0.8em" }}
+					className="text-danger text-center"
+				>
+					{errors["profileUpdateError"]}
 				</p>
 			)}
 			<Button
