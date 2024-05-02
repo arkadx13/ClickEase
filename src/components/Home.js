@@ -1,38 +1,116 @@
 import { useSelector } from "react-redux";
 import useBestSellersProducts from "../hooks/useBestSellersProducts";
 import Header from "./Header";
+import ProductList from "./ProductList";
+import Shimmer from "./Shimmer";
+import { Form } from "react-bootstrap";
 
 const Home = () => {
 	useBestSellersProducts();
-	const products = useSelector(
-		(store) => store?.products?.electronicsBestSellers
-	);
+	const products = useSelector((store) => store?.products);
 
 	if (!products) return;
 
 	return (
 		<div>
 			<Header />
-			<div className="d-flex flex-row flex-wrap">
-				{products.map((item) => (
-					<div
-						key={item.asin}
-						className="border border-dark m-2 rounded w-25 p-3"
-						style={{ height: "auto" }}
-					>
-						<img
-							src={item.product_photo}
-							alt=""
-							className="w-100"
+			<div className="d-flex flex-row mt-4">
+				<div
+					style={{ width: "15%" }}
+					className="position-fixed z-index-3"
+				>
+					<Form className="p-3">
+						<p className="fw-bold">Search filter:</p>
+						<Form.Group className="mb-3" controlId="5-stars">
+							<Form.Check label="5 ⭐" type="checkbox" />
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="5-stars">
+							<Form.Check label="4 ⭐" type="checkbox" />
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="5-stars">
+							<Form.Check label="3 ⭐" type="checkbox" />
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="5-stars">
+							<Form.Check label="2 ⭐" type="checkbox" />
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="5-stars">
+							<Form.Check label="1 ⭐" type="checkbox" />
+						</Form.Group>
+						<p className="fw-bold">Sort by Price:</p>
+						<Form.Group className="mb-3" controlId="5-stars">
+							<Form.Check
+								name="priceSort"
+								label="Low to High"
+								type="radio"
+							/>
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="5-stars">
+							<Form.Check
+								name="priceSort"
+								label="High to Low"
+								type="radio"
+							/>
+						</Form.Group>
+					</Form>
+				</div>
+				<div style={{ width: "85%", marginLeft: "250px" }}>
+					{products.fashionBestSellers === null ? (
+						<Shimmer />
+					) : (
+						<ProductList
+							title={"Fashion"}
+							products={products?.fashionBestSellers}
 						/>
-						<p>{item.product_title}</p>
-						<p>{item.product_price}</p>
-						<p>{item.product_star_rating} ⭐</p>
-						<a href={item.product_url} target="_blank">
-							go to Product Information
-						</a>
-					</div>
-				))}
+					)}
+					{products.beautyBestSellers === null ? (
+						<Shimmer />
+					) : (
+						<ProductList
+							title={"Beauty"}
+							products={products?.beautyBestSellers}
+						/>
+					)}
+					{products.electronicsBestSellers === null ? (
+						<Shimmer />
+					) : (
+						<ProductList
+							title={"Electronics"}
+							products={products?.electronicsBestSellers}
+						/>
+					)}
+					{products.groceryBestSellers === null ? (
+						<Shimmer />
+					) : (
+						<ProductList
+							title={"Grocery"}
+							products={products?.groceryBestSellers}
+						/>
+					)}
+					{products.appliancesBestSellers === null ? (
+						<Shimmer />
+					) : (
+						<ProductList
+							title={"Appliances"}
+							products={products?.appliancesBestSellers}
+						/>
+					)}
+					{products.videoGamesBestSellers === null ? (
+						<Shimmer />
+					) : (
+						<ProductList
+							title={"Video Games"}
+							products={products?.videoGamesBestSellers}
+						/>
+					)}
+					{products.audibleBestSellers === null ? (
+						<Shimmer />
+					) : (
+						<ProductList
+							title={"Audible"}
+							products={products?.audibleBestSellers}
+						/>
+					)}
+				</div>
 			</div>
 		</div>
 	);

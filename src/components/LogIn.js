@@ -23,7 +23,7 @@ const LogIn = () => {
 			userPassword,
 			null
 		);
-		console.log("Login formValidated", formValidated);
+		// console.log("Login formValidated", formValidated);
 
 		if (formValidated === true) {
 			// Submit the form and Log In

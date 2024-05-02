@@ -5,6 +5,7 @@ import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useEffect } from "react";
+import { removeProducts } from "../utils/productSlice";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -43,6 +44,7 @@ const Header = () => {
 			} else {
 				// User is signed out
 				dispatch(removeUser());
+				dispatch(removeProducts());
 				if (window.location.pathname === "/signup") {
 					navigate("/signup");
 				} else {
