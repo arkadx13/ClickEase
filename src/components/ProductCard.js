@@ -1,16 +1,21 @@
 import { Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ item }) => {
+	const navigate = useNavigate();
+
 	const productTitle =
 		item.product_title.length > 45
 			? item.product_title.slice(0, 45) + "..."
 			: item.product_title;
 
-	const showProductDetails = () => {};
+	const showProductDetails = (productId) => {
+		navigate(`/product/${productId}`);
+	};
 
 	return (
 		<Card
-			key={item.asin}
+			// key={item.asin}
 			className="m-2"
 			style={{
 				height: "auto",
@@ -18,7 +23,7 @@ const ProductCard = ({ item }) => {
 				width: "200px",
 				maxWidth: "250px",
 			}}
-			onClick={showProductDetails}
+			onClick={() => showProductDetails(item.asin)}
 		>
 			<Card.Img
 				variant="top"

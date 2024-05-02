@@ -53,7 +53,7 @@ const Home = () => {
 						</Form.Group>
 					</Form>
 				</div>
-				<div style={{ width: "85%", marginLeft: "250px" }}>
+				<div style={{ width: "85%", marginLeft: "220px" }}>
 					{products.fashionBestSellers === null ? (
 						<Shimmer />
 					) : (

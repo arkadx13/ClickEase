@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { removeProducts } from "../utils/productSlice";
 const Header = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { id } = useParams();
 	const user = useSelector((store) => store.user);
 
 	const handleSearch = (e) => {
@@ -40,7 +41,14 @@ const Header = () => {
 						photoURL: photoURL,
 					})
 				);
-				navigate("/home");
+				if (
+					window.location.pathname === "/home" ||
+					window.location.pathname === "/"
+				) {
+					navigate("/home");
+				} else if (window.location.pathname === "/product/:id") {
+					navigate(`/product/${id}`);
+				}
 			} else {
 				// User is signed out
 				dispatch(removeUser());
@@ -63,8 +71,9 @@ const Header = () => {
 		>
 			<Container className="d-flex flex-row justify-content-between">
 				<a
-					href="/"
+					role="button"
 					className="fw-bold text-white fs-4 text-decoration-none"
+					onClick={() => navigate("/home")}
 				>
 					ClickEase
 				</a>

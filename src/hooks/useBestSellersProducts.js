@@ -95,11 +95,11 @@ const useBestSellersProducts = () => {
 
 	useEffect(() => {
 		getBestSellersFashion();
-		getBestSellersElectronics();
-		getBestSellersBeauty();
-		getBestSellersGrocery();
-		getBestSellersAppliances();
-		getBestSellersVideoGames();
+		// getBestSellersElectronics();
+		// getBestSellersBeauty();
+		// getBestSellersGrocery();
+		// getBestSellersAppliances();
+		// getBestSellersVideoGames();
 		getBestSellersAudible();
 	}, []);
 };
