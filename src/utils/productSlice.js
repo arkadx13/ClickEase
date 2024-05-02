@@ -10,6 +10,7 @@ const productSlice = createSlice({
 		videoGamesBestSellers: null,
 		audibleBestSellers: null,
 		fashionBestSellers: null,
+		targetProduct: null,
 	},
 	reducers: {
 		addFashionBestSellers: (state, action) => {
@@ -42,6 +43,12 @@ const productSlice = createSlice({
 			state.audibleBestSellers = null;
 			state.fashionBestSellers = null;
 		},
+		addTargetProduct: (state, action) => {
+			state.targetProduct = action.payload;
+		},
+		removeTargetProduct: (state, action) => {
+			state.targetProduct = null;
+		},
 	},
 });
 
@@ -55,6 +62,8 @@ export const {
 	addVideoGamesBestSellers,
 	addAudibleBestSellers,
 	removeProducts,
+	addTargetProduct,
+	removeTargetProduct,
 } = productSlice.actions;
 
 export default productSlice.reducer;

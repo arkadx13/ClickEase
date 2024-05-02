@@ -5,7 +5,7 @@ import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useEffect } from "react";
-import { removeProducts } from "../utils/productSlice";
+import { removeProducts, removeTargetProduct } from "../utils/productSlice";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -66,14 +66,17 @@ const Header = () => {
 
 	return (
 		<header
-			style={{ backgroundColor: "#3ec167" }}
-			className="p-3 text-white"
+			style={{ backgroundColor: "#3ec167", zIndex: "999", margin: "0" }}
+			className="p-3 text-white position-fixed w-100"
 		>
 			<Container className="d-flex flex-row justify-content-between">
 				<a
 					role="button"
 					className="fw-bold text-white fs-4 text-decoration-none"
-					onClick={() => navigate("/home")}
+					onClick={() => {
+						navigate("/home");
+						dispatch(removeTargetProduct());
+					}}
 				>
 					ClickEase
 				</a>

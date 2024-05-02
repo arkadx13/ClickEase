@@ -4,6 +4,7 @@ import Header from "./Header";
 import ProductList from "./ProductList";
 import Shimmer from "./Shimmer";
 import { Form } from "react-bootstrap";
+import Footer from "./Footer";
 
 const Home = () => {
 	useBestSellersProducts();
@@ -14,10 +15,10 @@ const Home = () => {
 	return (
 		<div>
 			<Header />
-			<div className="d-flex flex-row mt-4">
+			<div className="d-flex flex-row" style={{ paddingTop: "100px" }}>
 				<div
 					style={{ width: "15%" }}
-					className="position-fixed z-index-3"
+					className="position-fixed z-index-3 text-success"
 				>
 					<Form className="p-3">
 						<p className="fw-bold">Search filter:</p>
@@ -112,6 +113,7 @@ const Home = () => {
 					)}
 				</div>
 			</div>
+			<Footer />
 		</div>
 	);
 };
