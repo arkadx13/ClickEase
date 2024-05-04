@@ -1,8 +1,13 @@
 import { Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import useTargetProduct from "../hooks/useTargetProduct";
+import { useSelector } from "react-redux";
 
 const ProductCard = ({ item }) => {
 	const navigate = useNavigate();
+	const targetProduct = useSelector(
+		(store) => store?.products?.targetProduct
+	);
 
 	const productTitle =
 		item.product_title.length > 45
@@ -15,7 +20,6 @@ const ProductCard = ({ item }) => {
 
 	return (
 		<Card
-			// key={item.asin}
 			className="m-2"
 			style={{
 				height: "auto",
