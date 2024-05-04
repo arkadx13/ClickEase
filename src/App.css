@@ -63,3 +63,7 @@ input[type="search"]:focus {
 	color: #ffffff;
 	transition: all 0.2s ease-in-out;
 }
+
+h5 {
+	color: #3ec167;
+}

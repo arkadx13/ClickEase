@@ -4,7 +4,8 @@ import { useDispatch } from "react-redux";
 import { addTargetProduct } from "../utils/productSlice";
 
 const useTargetProduct = (productId) => {
-	console.log("useTargetProduct called");
+	console.log("useTargetProduct called with ID:", productId);
+
 	const dispatch = useDispatch();
 
 	const getProductInfo = () => {
@@ -19,7 +20,7 @@ const useTargetProduct = (productId) => {
 
 	useEffect(() => {
 		getProductInfo();
-	}, [getProductInfo]);
+	}, []);
 };
 
 export default useTargetProduct;
