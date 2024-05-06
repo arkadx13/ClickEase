@@ -4,18 +4,18 @@ import { Button, Carousel, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import useTargetProduct from "../hooks/useTargetProduct";
-import { changeImageIndex } from "../utils/modalSlice";
+import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
 import ShimmerProductDetails from "./ShimmerProductDetails";
+import ProductModal from "./ProductModal";
 
 const ProductDetails = () => {
-	// const { id } = useParams();
 	const dispatch = useDispatch();
-
-	// get product data save on redux store
-	// useTargetProduct(id);
 
 	const item = useSelector((store) => store?.products?.targetProduct);
 	const imageIndex = useSelector((store) => store?.modal?.imageIndex);
+	const showProductModal = useSelector(
+		(store) => store?.modal?.showProductModal
+	);
 
 	if (!item) return;
 
@@ -75,6 +75,11 @@ const ProductDetails = () => {
 											alt={`product view number${
 												index + 1
 											}`}
+											onClick={() =>
+												dispatch(
+													toggleProductModal(true)
+												)
+											}
 										/>
 									</Carousel.Item>
 								))}
@@ -101,6 +106,9 @@ const ProductDetails = () => {
 										alt={`product view number${index + 1}`}
 										onMouseOver={() =>
 											dispatch(changeImageIndex(index))
+										}
+										onClick={() =>
+											dispatch(toggleProductModal(true))
 										}
 									/>
 								))}
@@ -263,7 +271,9 @@ const ProductDetails = () => {
 					</div>
 				</Container>
 			)}
-			{/* {showProductModal && <Productodal item={item} />} */}
+			{showProductModal && (
+				<ProductModal show={showProductModal} item={item} />
+			)}
 			<Footer />
 		</div>
 	);

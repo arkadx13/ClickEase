@@ -72,8 +72,8 @@ const useBestSellersProducts = () => {
 	useEffect(() => {
 		// getBestSellersFashion();
 		// getBestSellersElectronics();
-		getBestSellersBeauty();
-		// 	getBestSellersGrocery();
+		// getBestSellersBeauty();
+		getBestSellersGrocery();
 		// 	getBestSellersVideoGames();
 	}, []);
 };

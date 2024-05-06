@@ -8,7 +8,7 @@ const modalSlice = createSlice({
 	},
 	reducers: {
 		toggleProductModal: (state, action) => {
-			state.showProductModal = !state.showProductModal;
+			state.showProductModal = action.payload;
 		},
 		changeImageIndex: (state, action) => {
 			state.imageIndex = action.payload;

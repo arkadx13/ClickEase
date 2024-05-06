@@ -6,9 +6,8 @@ import useTargetProduct from "../hooks/useTargetProduct";
 
 const ShimmerProductDetails = () => {
 	const { id } = useParams();
-	// const dispatch = useDispatch();
 
-	// get product data save on redux store
+	// get product data and save on redux store
 	useTargetProduct(id);
 
 	return (
