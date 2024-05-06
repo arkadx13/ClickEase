@@ -1,7 +1,7 @@
 import { Card, Placeholder } from "react-bootstrap";
 import PlaceholderImage from "../assets/images/placeholder-image.svg";
 
-const Shimmer = () => {
+const ShimmerHome = () => {
 	return (
 		<div className="d-flex flex-row overflow-auto">
 			<Card
@@ -217,4 +217,4 @@ const Shimmer = () => {
 	);
 };
 
-export default Shimmer;
+export default ShimmerHome;

@@ -6,9 +6,7 @@ const productSlice = createSlice({
 		electronicsBestSellers: null,
 		beautyBestSellers: null,
 		groceryBestSellers: null,
-		appliancesBestSellers: null,
 		videoGamesBestSellers: null,
-		audibleBestSellers: null,
 		fashionBestSellers: null,
 		targetProduct: null,
 	},
@@ -25,22 +23,14 @@ const productSlice = createSlice({
 		addGroceryBestSellers: (state, action) => {
 			state.groceryBestSellers = action.payload;
 		},
-		addAppliancesBestSellers: (state, action) => {
-			state.appliancesBestSellers = action.payload;
-		},
 		addVideoGamesBestSellers: (state, action) => {
 			state.videoGamesBestSellers = action.payload;
-		},
-		addAudibleBestSellers: (state, action) => {
-			state.audibleBestSellers = action.payload;
 		},
 		removeProducts: (state, action) => {
 			state.electronicsBestSellers = null;
 			state.beautyBestSellers = null;
 			state.groceryBestSellers = null;
-			state.appliancesBestSellers = null;
 			state.videoGamesBestSellers = null;
-			state.audibleBestSellers = null;
 			state.fashionBestSellers = null;
 		},
 		addTargetProduct: (state, action) => {
@@ -57,10 +47,8 @@ export const {
 	addElectronicsBestSellers,
 	addBeautyBestSellers,
 	addGroceryBestSellers,
-	addAppliancesBestSellers,
 	addPetsBestSellers,
 	addVideoGamesBestSellers,
-	addAudibleBestSellers,
 	removeProducts,
 	addTargetProduct,
 	removeTargetProduct,

@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import useBestSellersProducts from "../hooks/useBestSellersProducts";
 import Header from "./Header";
 import ProductList from "./ProductList";
-import Shimmer from "./Shimmer";
+import ShimmerHome from "./ShimmerHome";
 import { Form } from "react-bootstrap";
 import Footer from "./Footer";
 
@@ -55,62 +55,30 @@ const Home = () => {
 					</Form>
 				</div>
 				<div style={{ width: "85%", marginLeft: "220px" }}>
-					{products.fashionBestSellers === null ? (
-						<Shimmer />
-					) : (
-						<ProductList
-							title={"Fashion"}
-							products={products?.fashionBestSellers}
-						/>
-					)}
-					{products.beautyBestSellers === null ? (
-						<Shimmer />
-					) : (
-						<ProductList
-							title={"Beauty"}
-							products={products?.beautyBestSellers}
-						/>
-					)}
-					{products.electronicsBestSellers === null ? (
-						<Shimmer />
-					) : (
-						<ProductList
-							title={"Electronics"}
-							products={products?.electronicsBestSellers}
-						/>
-					)}
-					{products.groceryBestSellers === null ? (
-						<Shimmer />
-					) : (
-						<ProductList
-							title={"Grocery"}
-							products={products?.groceryBestSellers}
-						/>
-					)}
-					{products.appliancesBestSellers === null ? (
-						<Shimmer />
-					) : (
-						<ProductList
-							title={"Appliances"}
-							products={products?.appliancesBestSellers}
-						/>
-					)}
-					{products.videoGamesBestSellers === null ? (
-						<Shimmer />
-					) : (
-						<ProductList
-							title={"Video Games"}
-							products={products?.videoGamesBestSellers}
-						/>
-					)}
-					{products.audibleBestSellers === null ? (
-						<Shimmer />
-					) : (
-						<ProductList
-							title={"Audible"}
-							products={products?.audibleBestSellers}
-						/>
-					)}
+					<ProductList
+						title={"Fashion"}
+						products={products?.fashionBestSellers}
+					/>
+
+					<ProductList
+						title={"Beauty"}
+						products={products?.beautyBestSellers}
+					/>
+
+					<ProductList
+						title={"Electronics"}
+						products={products?.electronicsBestSellers}
+					/>
+
+					<ProductList
+						title={"Grocery"}
+						products={products?.groceryBestSellers}
+					/>
+
+					<ProductList
+						title={"Video Games"}
+						products={products?.videoGamesBestSellers}
+					/>
 				</div>
 			</div>
 			<Footer />

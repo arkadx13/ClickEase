@@ -33,6 +33,7 @@ const Header = () => {
 			if (user) {
 				// User is signed in
 				const { uid, email, displayName, photoURL } = user;
+
 				dispatch(
 					addUser({
 						uid: uid,
@@ -41,6 +42,7 @@ const Header = () => {
 						photoURL: photoURL,
 					})
 				);
+
 				if (
 					window.location.pathname === "/home" ||
 					window.location.pathname === "/"
@@ -53,6 +55,7 @@ const Header = () => {
 				// User is signed out
 				dispatch(removeUser());
 				dispatch(removeProducts());
+				dispatch(removeTargetProduct());
 				if (window.location.pathname === "/signup") {
 					navigate("/signup");
 				} else {

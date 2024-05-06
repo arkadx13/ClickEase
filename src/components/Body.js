@@ -3,8 +3,12 @@ import Home from "./Home";
 import LandingPage from "./LandingPage";
 import Error from "./Error";
 import ProductDetails from "./ProductDetails";
+import { useSelector } from "react-redux";
+import ShimmerProductDetails from "./ShimmerProductDetails";
 
 function Body() {
+	const item = useSelector((store) => store?.products?.targetProduct);
+
 	const appRouter = createBrowserRouter([
 		{
 			path: "/",
@@ -24,7 +28,7 @@ function Body() {
 		},
 		{
 			path: "/product/:id",
-			element: <ProductDetails />,
+			element: item ? <ProductDetails /> : <ShimmerProductDetails />,
 		},
 		{
 			path: "/error",

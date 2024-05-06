@@ -6,9 +6,7 @@ import {
 	addElectronicsBestSellers,
 	addBeautyBestSellers,
 	addGroceryBestSellers,
-	addAppliancesBestSellers,
 	addVideoGamesBestSellers,
-	addAudibleBestSellers,
 } from "../utils/productSlice";
 
 const useBestSellersProducts = () => {
@@ -60,17 +58,6 @@ const useBestSellersProducts = () => {
 			.catch((error) => console.log(error));
 	};
 
-	//Appliances
-	const getBestSellersAppliances = () => {
-		Searches("/best-sellers?category=appliances&page=1")
-			.then((response) => {
-				dispatch(
-					addAppliancesBestSellers(response?.data?.data?.best_sellers)
-				);
-			})
-			.catch((error) => console.log(error));
-	};
-
 	//Video Games
 	const getBestSellersVideoGames = () => {
 		Searches("/best-sellers?category=videogames&page=1")
@@ -82,25 +69,12 @@ const useBestSellersProducts = () => {
 			.catch((error) => console.log(error));
 	};
 
-	//Audible
-	const getBestSellersAudible = () => {
-		Searches("/best-sellers?category=audible&page=1")
-			.then((response) => {
-				dispatch(
-					addAudibleBestSellers(response?.data?.data?.best_sellers)
-				);
-			})
-			.catch((error) => console.log(error));
-	};
-
 	useEffect(() => {
 		// getBestSellersFashion();
 		// getBestSellersElectronics();
-		// getBestSellersBeauty();
-		getBestSellersGrocery();
-		// getBestSellersAppliances();
-		// getBestSellersVideoGames();
-		// getBestSellersAudible();
+		getBestSellersBeauty();
+		// 	getBestSellersGrocery();
+		// 	getBestSellersVideoGames();
 	}, []);
 };
 

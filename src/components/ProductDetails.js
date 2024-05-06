@@ -1,19 +1,18 @@
 import Header from "./Header";
 import Footer from "./Footer";
-import { Carousel, Container, Form } from "react-bootstrap";
+import { Button, Carousel, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useTargetProduct from "../hooks/useTargetProduct";
 import { changeImageIndex } from "../utils/modalSlice";
-import { removeTargetProduct } from "../utils/productSlice";
+import ShimmerProductDetails from "./ShimmerProductDetails";
 
 const ProductDetails = () => {
-	const { id } = useParams();
+	// const { id } = useParams();
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	// get product data save on redux store
-	useTargetProduct(id);
+	// useTargetProduct(id);
 
 	const item = useSelector((store) => store?.products?.targetProduct);
 	const imageIndex = useSelector((store) => store?.modal?.imageIndex);
@@ -36,7 +35,9 @@ const ProductDetails = () => {
 		0
 	);
 
-	return (
+	return item === null ? (
+		<ShimmerProductDetails />
+	) : (
 		<div className="d-flex flex-column justify-content-between">
 			<Header />
 			{item && (
@@ -250,6 +251,14 @@ const ProductDetails = () => {
 									min={1}
 								/>
 							</Form.Group>
+							<div className="d-flex flex-row justify-content-start my-5 text-end">
+								<Button className="border border-success bg-white p-3 text-success mx-2">
+									Add to cart
+								</Button>
+								<Button className="bg-success p-3  mx-2">
+									Buy Now
+								</Button>
+							</div>
 						</Form>
 					</div>
 				</Container>
