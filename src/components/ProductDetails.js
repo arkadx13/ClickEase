@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
 import ShimmerProductDetails from "./ShimmerProductDetails";
 import ProductModal from "./ProductModal";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProductDetails = () => {
 	const dispatch = useDispatch();
@@ -15,6 +15,31 @@ const ProductDetails = () => {
 	const showProductModal = useSelector(
 		(store) => store?.modal?.showProductModal
 	);
+
+	// tesst--------------------------------------
+	const [position, setPosition] = useState({ x: 0, y: 0 });
+
+	useEffect(() => {
+		const handleMouseMove = (e) => {
+			const xOffset = 20; // Adjust as needed
+			const yOffset = 20; // Adjust as needed
+
+			const x = e.clientX + xOffset;
+			const y = e.clientY + yOffset;
+
+			setPosition({ x, y });
+		};
+
+		const smallImage = document.querySelector(".small-image");
+
+		smallImage.addEventListener("mousemove", handleMouseMove);
+
+		return () => {
+			smallImage.removeEventListener("mousemove", handleMouseMove);
+		};
+	}, []);
+
+	// tesst--------------------------------------
 
 	if (!item) return;
 
@@ -33,6 +58,10 @@ const ProductDetails = () => {
 		},
 		0
 	);
+
+	const handleColorImage = (photoSrc) => {
+		console.log(photoSrc);
+	};
 
 	return item === null ? (
 		<ShimmerProductDetails />
@@ -218,22 +247,42 @@ const ProductDetails = () => {
 									item?.product_variations?.color.map(
 										(colorVariant) => {
 											return colorVariant.photo ? (
-												<img
-													key={colorVariant.asin}
-													width={60}
-													src={colorVariant.photo}
-													style={{
-														objectFit: "contain",
-														border: "1px solid #C13E98",
-														marginRight: "5px",
-													}}
-												/>
+												<div
+													class="image-container"
+													style={{ width: "30px" }}
+												>
+													<img
+														key={colorVariant.asin}
+														width={60}
+														src={colorVariant.photo}
+														style={{
+															objectFit:
+																"contain",
+															border: "1px solid #C13E98",
+															marginRight: "5px",
+														}}
+														class="small-image"
+														alt="Small Image"
+														onMouseOver={() =>
+															handleColorImage(
+																colorVariant.photo
+															)
+														}
+													/>
+													<div class="large-image-container">
+														<img
+															src={
+																colorVariant.photo
+															}
+															class="large-image"
+															alt="Large Image"
+														/>
+													</div>
+												</div>
 											) : (
 												<div
+													key={colorVariant.asin}
 													className="border m-2 p-1 text-decoration-none text-black"
-													// onClick={() => {
-
-													href={`/product/${colorVariant.asin}`}
 												>
 													{colorVariant.value}
 												</div>
