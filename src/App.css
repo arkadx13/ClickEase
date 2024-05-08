@@ -67,3 +67,33 @@ input[type="search"]:focus {
 h5 {
 	color: #3ec167;
 }
+
+/* Ribbon Styling */
+
+.ribbon {
+	position: absolute;
+	top: 0;
+	right: -5px;
+	padding: 3px 8px;
+}
+
+.ribbon-content {
+	position: relative;
+	background: #f1f1f1;
+}
+
+.ribbon.best-seller {
+	background: #ffd800;
+	color: #ffffff;
+	border-right: 5px solid #ffe866;
+}
+
+.ribbon span {
+	display: block;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.ribbon span.large {
+	font-size: 25px;
+}

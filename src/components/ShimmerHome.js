@@ -1,7 +1,12 @@
 import { Card, Placeholder } from "react-bootstrap";
 import PlaceholderImage from "../assets/images/placeholder-image.svg";
+import { useEffect } from "react";
 
 const ShimmerHome = () => {
+	useEffect(() => {
+		window.scrollTo(0, 0); // Scrolls to the top of the window
+	}, []);
+
 	return (
 		<div className="d-flex flex-row overflow-auto">
 			<Card

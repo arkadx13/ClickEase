@@ -127,6 +127,15 @@ const ProductDetails = () => {
 								: numberOfRatings + " Rating"}
 						</div>
 						<div className="bg-light fs-2 p-3 mb-3 text-success">
+							{item.is_best_seller && (
+								<div class="ribbon-content">
+									<div class="ribbon best-seller">
+										<span className="large">
+											Best Seller
+										</span>
+									</div>
+								</div>
+							)}
 							<span
 								className="mx-3"
 								style={{ color: "lightgrey" }}

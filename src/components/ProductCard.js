@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ item }) => {
 	const navigate = useNavigate();
+	console.log(item);
 
 	// const productTitle =
 	// 	item.product_title.length > 45
@@ -31,6 +32,13 @@ const ProductCard = ({ item }) => {
 			}}
 			onClick={() => showProductDetails(item.asin)}
 		>
+			{item.is_best_seller && (
+				<div class="ribbon-content">
+					<div class="ribbon best-seller">
+						<span>Best Seller</span>
+					</div>
+				</div>
+			)}
 			<Card.Img
 				variant="top"
 				src={item.product_photo}
