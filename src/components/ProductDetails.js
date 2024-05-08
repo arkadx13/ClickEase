@@ -1,6 +1,13 @@
 import Header from "./Header";
 import Footer from "./Footer";
-import { Button, Carousel, Container, Form } from "react-bootstrap";
+import {
+	Button,
+	Carousel,
+	Container,
+	Form,
+	OverlayTrigger,
+	Popover,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
 import ShimmerProductDetails from "./ShimmerProductDetails";
@@ -218,22 +225,39 @@ const ProductDetails = () => {
 									item?.product_variations?.color.map(
 										(colorVariant) => {
 											return colorVariant.photo ? (
-												<img
+												<OverlayTrigger
+													trigger="hover"
 													key={colorVariant.asin}
-													width={60}
-													src={colorVariant.photo}
-													style={{
-														objectFit: "contain",
-														border: "1px solid #C13E98",
-														marginRight: "5px",
-													}}
-												/>
+													placement="right"
+													overlay={
+														<Popover
+															id={`popover-positioned-right`}
+														>
+															<img
+																width={400}
+																src={
+																	colorVariant.photo
+																}
+															/>
+														</Popover>
+													}
+												>
+													<img
+														// key={colorVariant.asin}
+														width={60}
+														src={colorVariant.photo}
+														style={{
+															objectFit:
+																"contain",
+															border: "1px solid #C13E98",
+															marginRight: "5px",
+														}}
+													/>
+												</OverlayTrigger>
 											) : (
 												<div
+													key={colorVariant.asin}
 													className="border m-2 p-1 text-decoration-none text-black"
-													// onClick={() => {
-
-													href={`/product/${colorVariant.asin}`}
 												>
 													{colorVariant.value}
 												</div>
