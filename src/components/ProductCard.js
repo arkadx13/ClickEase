@@ -4,8 +4,15 @@ import { useNavigate } from "react-router-dom";
 const ProductCard = ({ item }) => {
 	const navigate = useNavigate();
 
+	// const productTitle =
+	// 	item.product_title.length > 45
+	// 		? item.product_title.slice(0, 45) + "..."
+	// 		: item.product_title;
+
 	const productTitle =
-		item.product_title.length > 45
+		item.product_title === null
+			? "Title is null"
+			: item.product_title.length > 45
 			? item.product_title.slice(0, 45) + "..."
 			: item.product_title;
 
@@ -17,10 +24,10 @@ const ProductCard = ({ item }) => {
 		<Card
 			className="m-2"
 			style={{
-				height: "auto",
+				height: "300px",
 				minWidth: "200px",
 				width: "200px",
-				maxWidth: "250px",
+				// maxWidth: "250px",
 			}}
 			onClick={() => showProductDetails(item.asin)}
 		>
@@ -28,6 +35,12 @@ const ProductCard = ({ item }) => {
 				variant="top"
 				src={item.product_photo}
 				alt={item.product_title}
+				style={{
+					height: "160px",
+					minwidth: "200px",
+					width: "100%",
+					objectFit: "cover",
+				}}
 			/>
 			<Card.Body className="d-flex flex-column justify-content-between">
 				<Card.Text

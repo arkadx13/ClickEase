@@ -3,9 +3,14 @@ import ImagePlaceholder from "../assets/images/placeholder-image.svg";
 import Footer from "./Footer";
 import { useParams } from "react-router-dom";
 import useTargetProduct from "../hooks/useTargetProduct";
+import { useEffect } from "react";
 
 const ShimmerProductDetails = () => {
 	const { id } = useParams();
+
+	useEffect(() => {
+		window.scrollTo(0, 0); // Scrolls to the top of the window
+	}, []);
 
 	// get product data and save on redux store
 	useTargetProduct(id);

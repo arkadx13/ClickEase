@@ -2,11 +2,10 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { Button, Carousel, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import useTargetProduct from "../hooks/useTargetProduct";
 import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
 import ShimmerProductDetails from "./ShimmerProductDetails";
 import ProductModal from "./ProductModal";
+import { useEffect } from "react";
 
 const ProductDetails = () => {
 	const dispatch = useDispatch();

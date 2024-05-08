@@ -70,11 +70,11 @@ const useBestSellersProducts = () => {
 	};
 
 	useEffect(() => {
-		// getBestSellersFashion();
-		// getBestSellersElectronics();
-		// getBestSellersBeauty();
+		getBestSellersFashion();
+		getBestSellersElectronics();
+		getBestSellersBeauty();
 		getBestSellersGrocery();
-		// 	getBestSellersVideoGames();
+		getBestSellersVideoGames();
 	}, []);
 };
 

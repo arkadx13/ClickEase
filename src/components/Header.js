@@ -1,3 +1,4 @@
+import openai from "../api/openai";
 import { Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -6,6 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { useEffect } from "react";
 import { removeProducts, removeTargetProduct } from "../utils/productSlice";
+import Searches from "../api/Searches";
+import {
+	addSearchResults,
+	removeSearchResults,
+	toggleIsSearching,
+} from "../utils/gptSlice";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -13,8 +20,35 @@ const Header = () => {
 	const { id } = useParams();
 	const user = useSelector((store) => store.user);
 
-	const handleSearch = (e) => {
+	const handleSearch = async (e) => {
 		e.preventDefault();
+		navigate("/home");
+		dispatch(removeSearchResults());
+		dispatch(toggleIsSearching(true));
+		const keyword = e.target.elements.searchInput.value;
+
+		// Use GPT for getting suggestion based on keywords
+		const queryContent =
+			"Act as a Product Recommendation system and suggest some products for the query : " +
+			keyword +
+			". Only give me names of 5 products, forward slash separated like the example result given ahead. Example Result: Blanket/Lawn Mower/Board Game/Perfume/Watch .If query is only one word or two include the query in the result along with your suggestions.";
+
+		const gptResult = await openai.chat.completions.create({
+			messages: [{ role: "user", content: queryContent }],
+			model: "gpt-3.5-turbo",
+		});
+
+		const keywordsArray =
+			gptResult.choices?.[0]?.message?.content.split("/");
+
+		// Fetching data with query
+		keywordsArray.map((keyword, index) =>
+			Searches(`/search?query=${keyword}`)
+				.then((response) => {
+					dispatch(addSearchResults(response?.data?.data));
+				})
+				.catch((error) => console.log(error))
+		);
 	};
 
 	const handleSignOut = () => {
@@ -45,8 +79,10 @@ const Header = () => {
 
 				if (
 					window.location.pathname === "/home" ||
-					window.location.pathname === "/"
+					window.location.pathname === "/" ||
+					window.location.pathname === "/signup"
 				) {
+					dispatch(removeTargetProduct());
 					navigate("/home");
 				} else if (window.location.pathname === "/product/:id") {
 					navigate(`/product/${id}`);
@@ -56,6 +92,7 @@ const Header = () => {
 				dispatch(removeUser());
 				dispatch(removeProducts());
 				dispatch(removeTargetProduct());
+				dispatch(removeSearchResults());
 				if (window.location.pathname === "/signup") {
 					navigate("/signup");
 				} else {
@@ -79,15 +116,17 @@ const Header = () => {
 					onClick={() => {
 						navigate("/home");
 						dispatch(removeTargetProduct());
+						dispatch(toggleIsSearching(false));
 					}}
 				>
 					ClickEase
 				</a>
 				{user && (
 					<>
-						<form className="search">
+						<form className="search" onSubmit={handleSearch}>
 							<input
 								type="search"
+								name="searchInput"
 								placeholder="Shop for bags, dresses, groceries ..."
 							/>
 							<button

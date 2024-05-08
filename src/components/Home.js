@@ -9,6 +9,7 @@ import Footer from "./Footer";
 const Home = () => {
 	useBestSellersProducts();
 	const products = useSelector((store) => store?.products);
+	const search = useSelector((store) => store?.search);
 
 	if (!products) return;
 
@@ -54,32 +55,57 @@ const Home = () => {
 						</Form.Group>
 					</Form>
 				</div>
-				<div style={{ width: "85%", marginLeft: "220px" }}>
-					<ProductList
-						title={"Fashion"}
-						products={products?.fashionBestSellers}
-					/>
+				{search.isSearching ? (
+					<div style={{ width: "85%", marginLeft: "220px" }}>
+						<p
+							style={{ fontSize: "0.8rem" }}
+							className="text-success"
+						>
+							Search results:
+						</p>
+						{search.searchResults.length > 0 ? (
+							search.searchResults.map((resultObj) => (
+								<ProductList
+									title={"Fashion"}
+									products={resultObj.products}
+								/>
+							))
+						) : (
+							<>
+								<ShimmerHome />
+								<ShimmerHome />
+								<ShimmerHome />
+							</>
+						)}
+					</div>
+				) : (
+					<div style={{ width: "85%", marginLeft: "220px" }}>
+						<ProductList
+							title={"Fashion"}
+							products={products?.fashionBestSellers}
+						/>
 
-					<ProductList
-						title={"Beauty"}
-						products={products?.beautyBestSellers}
-					/>
+						<ProductList
+							title={"Beauty"}
+							products={products?.beautyBestSellers}
+						/>
 
-					<ProductList
-						title={"Electronics"}
-						products={products?.electronicsBestSellers}
-					/>
+						<ProductList
+							title={"Electronics"}
+							products={products?.electronicsBestSellers}
+						/>
 
-					<ProductList
-						title={"Grocery"}
-						products={products?.groceryBestSellers}
-					/>
+						<ProductList
+							title={"Grocery"}
+							products={products?.groceryBestSellers}
+						/>
 
-					<ProductList
-						title={"Video Games"}
-						products={products?.videoGamesBestSellers}
-					/>
-				</div>
+						<ProductList
+							title={"Video Games"}
+							products={products?.videoGamesBestSellers}
+						/>
+					</div>
+				)}
 			</div>
 			<Footer />
 		</div>
