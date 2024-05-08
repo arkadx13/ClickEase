@@ -5,7 +5,7 @@
 	margin: 0;
 	box-sizing: border-box;
 	font-family: "Roboto", sans-serif;
-	outline: 1px solid red;
+	/* outline: 1px solid red; */
 }
 
 form.search {
@@ -96,25 +96,4 @@ h5 {
 
 .ribbon span.large {
 	font-size: 25px;
-}
-
-/* Hover Image on ProductDetails */
-.image-container {
-	position: relative;
-	display: inline;
-	width: 50px;
-}
-
-.large-image-container {
-	display: none;
-	position: absolute;
-	top: 0;
-}
-
-.large-image {
-	width: 200px; /* Adjust as needed */
-}
-
-.small-image:hover + .large-image-container {
-	display: block;
 }
