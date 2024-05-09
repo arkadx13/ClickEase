@@ -12,6 +12,7 @@ import {
 	addSearchResults,
 	removeFilterResults,
 	removeSearchResults,
+	removeSuggestions,
 	toggleIsFiltering,
 	toggleIsSearching,
 } from "../utils/searchSlice";
@@ -47,7 +48,7 @@ const Header = () => {
 				gptResult.choices?.[0]?.message?.content.split("/");
 
 			// Fetching data with query
-			keywordsArray.map((keyword, index) =>
+			keywordsArray.map((keyword) =>
 				Searches(`/search?query=${keyword}`)
 					.then((response) => {
 						dispatch(addSearchResults(response?.data?.data));
@@ -100,6 +101,7 @@ const Header = () => {
 				dispatch(removeTargetProduct());
 				dispatch(removeSearchResults());
 				dispatch(removeFilterResults());
+				dispatch(removeSuggestions());
 				if (window.location.pathname === "/signup") {
 					navigate("/signup");
 				} else {
@@ -126,6 +128,7 @@ const Header = () => {
 						dispatch(toggleIsSearching(false));
 						dispatch(removeFilterResults());
 						dispatch(toggleIsFiltering(false));
+						dispatch(removeSuggestions());
 					}}
 				>
 					ClickEase

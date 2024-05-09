@@ -254,26 +254,92 @@ export const PRODUCT_TYPES = [
 ];
 
 export const COUNTRIES = [
-	"US",
-	"AU",
-	"BR",
-	"CA",
-	"CN",
-	"FR",
-	"DE",
-	"IN",
-	"IT",
-	"MX",
-	"NL",
-	"SG",
-	"ES",
-	"TR",
-	"AE",
-	"GB",
-	"JP",
-	"SA",
-	"PL",
-	"SE",
-	"BE",
-	"EG",
+	{
+		name: "United States",
+		id: "US",
+	},
+	{
+		name: "Australia",
+		id: "AU",
+	},
+	{
+		name: "Belgium",
+		id: "BE",
+	},
+	{
+		name: "Brazil",
+		id: "BR",
+	},
+	{
+		name: "Canada",
+		id: "CA",
+	},
+	{
+		name: "China",
+		id: "CN",
+	},
+	{
+		name: "Egypt",
+		id: "EG",
+	},
+	{
+		name: "France",
+		id: "FR",
+	},
+	{
+		name: "Germany",
+		id: "DE",
+	},
+	{
+		name: "Great Britain",
+		id: "GB",
+	},
+	{
+		name: "Japan",
+		id: "JP",
+	},
+	{
+		name: "India",
+		id: "IN",
+	},
+	{
+		name: "Italy",
+		id: "IT",
+	},
+	{
+		name: "Mexico",
+		id: "MX",
+	},
+	{
+		name: "Netherlands",
+		id: "NL",
+	},
+	{
+		name: "Singapore",
+		id: "SG",
+	},
+	{
+		name: "Spain",
+		id: "ES",
+	},
+	{
+		name: "Turkey",
+		id: "TR",
+	},
+	{
+		name: "United Arab of Emirates",
+		id: "AE",
+	},
+	{
+		name: "Saudi Arabia",
+		id: "SA",
+	},
+	{
+		name: "Poland",
+		id: "PL",
+	},
+	{
+		name: "Sweden",
+		id: "SE",
+	},
 ];

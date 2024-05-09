@@ -20,7 +20,6 @@ const ProductCard = ({ item }) => {
 				height: "300px",
 				minWidth: "200px",
 				width: "200px",
-				// maxWidth: "250px",
 			}}
 			onClick={() => showProductDetails(item.asin)}
 		>

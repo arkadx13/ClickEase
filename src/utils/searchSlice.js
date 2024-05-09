@@ -7,6 +7,7 @@ const searchSlice = createSlice({
 		isFiltering: false,
 		searchResults: [],
 		filterResults: null,
+		suggestions: null,
 	},
 	reducers: {
 		toggleIsSearching: (state, action) => {
@@ -28,6 +29,12 @@ const searchSlice = createSlice({
 		removeFilterResults: (state, action) => {
 			state.filterResults = null;
 		},
+		addSuggestions: (state, action) => {
+			state.suggestions = action.payload;
+		},
+		removeSuggestions: (state, action) => {
+			state.suggestions = null;
+		},
 	},
 });
 
@@ -38,6 +45,8 @@ export const {
 	addFilterResults,
 	removeSearchResults,
 	removeFilterResults,
+	addSuggestions,
+	removeSuggestions,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

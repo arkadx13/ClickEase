@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
 import ShimmerProductDetails from "./ShimmerProductDetails";
 import ProductModal from "./ProductModal";
-import { useEffect } from "react";
 
 const ProductDetails = () => {
 	const dispatch = useDispatch();
@@ -234,6 +233,7 @@ const ProductDetails = () => {
 															id={`popover-positioned-right`}
 														>
 															<img
+																alt={`${colorVariant.value} color variant`}
 																width={400}
 																src={
 																	colorVariant.photo
@@ -243,7 +243,7 @@ const ProductDetails = () => {
 													}
 												>
 													<img
-														// key={colorVariant.asin}
+														alt={`${colorVariant.value} color variant`}
 														width={60}
 														src={colorVariant.photo}
 														style={{

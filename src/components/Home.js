@@ -14,10 +14,12 @@ import Searches from "../api/Searches";
 import {
 	addFilterResults,
 	removeFilterResults,
+	removeSuggestions,
 	toggleIsFiltering,
 	toggleIsSearching,
 } from "../utils/searchSlice";
 import ProductCard from "./ProductCard";
+import getSuggestions from "../utils/getSuggestions";
 
 const Home = () => {
 	const dispatch = useDispatch();
@@ -30,6 +32,7 @@ const Home = () => {
 		dispatch(toggleIsSearching(false));
 		dispatch(removeFilterResults());
 		dispatch(toggleIsFiltering(true));
+		dispatch(removeSuggestions());
 
 		const { category, type, country } = e.target.elements;
 
@@ -53,6 +56,10 @@ const Home = () => {
 			.then((response) => {
 				console.log(response?.data?.data?.best_sellers);
 				dispatch(addFilterResults(response?.data?.data?.best_sellers));
+				// Get suggestion if no products are found
+				if (response.data.data?.best_sellers.length === 0) {
+					getSuggestions(`${type.value} ${category.value}`, dispatch);
+				}
 			})
 			.catch((error) => console.log(error));
 	};
@@ -116,8 +123,8 @@ const Home = () => {
 							aria-label="country"
 						>
 							{COUNTRIES.map((country) => (
-								<option key={country} value={country}>
-									{country}
+								<option key={country.id} value={country.id}>
+									{country.name}
 								</option>
 							))}
 						</Form.Select>
@@ -176,33 +183,30 @@ const Home = () => {
 								<ShimmerHome />
 							</>
 						) : search.filterResults.length >= 1 ? (
-							<div className="d-flex flex-wrap">
-								{search.filterResults.map((product) => (
+							<div className="d-flex flex-wrap justify-content-center">
+								{search?.filterResults?.map((product) => (
 									<ProductCard item={product} />
 								))}
 							</div>
 						) : (
 							<div>
-								<h5 className="text-danger text-center">
+								<h6 className="text-danger text-center">
 									No products found for your search. You may
 									check these other products:
-								</h5>
-
-								<ProductList
-									products={products?.fashionBestSellers}
-								/>
-								<ProductList
-									products={products?.beautyBestSellers}
-								/>
-								<ProductList
-									products={products?.electronicsBestSellers}
-								/>
-								<ProductList
-									products={products?.groceryBestSellers}
-								/>
-								<ProductList
-									products={products?.videoGamesBestSellers}
-								/>
+								</h6>
+								{search.suggestions === null ? (
+									<>
+										<ShimmerHome />
+										<ShimmerHome />
+										<ShimmerHome />
+									</>
+								) : (
+									<div className="d-flex flex-wrap justify-content-center">
+										{search?.suggestions?.map((product) => (
+											<ProductCard item={product} />
+										))}
+									</div>
+								)}
 							</div>
 						)}
 					</div>
