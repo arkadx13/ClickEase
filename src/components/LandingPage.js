@@ -9,7 +9,7 @@ const LandingPage = ({ signingIn }) => {
 	return (
 		<div className="d-flex flex-column">
 			<Header />
-			<div className="my-3">
+			<div className="my-5">
 				<Container className="d-flex" style={{ height: "500px" }}>
 					<div
 						style={{ color: "#3EC167" }}

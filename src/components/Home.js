@@ -1,15 +1,61 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useBestSellersProducts from "../hooks/useBestSellersProducts";
 import Header from "./Header";
 import ProductList from "./ProductList";
 import ShimmerHome from "./ShimmerHome";
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import Footer from "./Footer";
+import {
+	COUNTRIES,
+	PRODUCT_CATEGORIES,
+	PRODUCT_TYPES,
+} from "../constants/constants";
+import Searches from "../api/Searches";
+import {
+	addFilterResults,
+	removeFilterResults,
+	toggleIsFiltering,
+	toggleIsSearching,
+} from "../utils/searchSlice";
+import ProductCard from "./ProductCard";
 
 const Home = () => {
+	const dispatch = useDispatch();
 	useBestSellersProducts();
 	const products = useSelector((store) => store?.products);
 	const search = useSelector((store) => store?.search);
+
+	const handleFilter = (e) => {
+		e.preventDefault();
+		dispatch(toggleIsSearching(false));
+		dispatch(removeFilterResults());
+		dispatch(toggleIsFiltering(true));
+
+		const { category, type, country } = e.target.elements;
+
+		let parameters = "";
+
+		if (category) {
+			parameters += `category=${category.value}&`;
+		}
+
+		if (type) {
+			parameters += `type=${type.value}&`;
+		}
+
+		if (country) {
+			parameters += `country=${country.value}`;
+		}
+
+		console.log("parameters:", parameters);
+
+		Searches(`/best-sellers?${parameters}`)
+			.then((response) => {
+				console.log(response?.data?.data?.best_sellers);
+				dispatch(addFilterResults(response?.data?.data?.best_sellers));
+			})
+			.catch((error) => console.log(error));
+	};
 
 	if (!products) return;
 
@@ -19,44 +65,78 @@ const Home = () => {
 			<div className="d-flex flex-row" style={{ paddingTop: "100px" }}>
 				<div
 					style={{ width: "15%" }}
-					className="position-fixed z-index-3 text-success"
+					className="position-fixed z-index-3 text-success "
 				>
-					<Form className="p-3">
-						<p className="fw-bold">Search filter:</p>
-						<Form.Group className="mb-3" controlId="5-stars">
-							<Form.Check label="5 ⭐" type="checkbox" />
-						</Form.Group>
-						<Form.Group className="mb-3" controlId="5-stars">
-							<Form.Check label="4 ⭐" type="checkbox" />
-						</Form.Group>
-						<Form.Group className="mb-3" controlId="5-stars">
-							<Form.Check label="3 ⭐" type="checkbox" />
-						</Form.Group>
-						<Form.Group className="mb-3" controlId="5-stars">
-							<Form.Check label="2 ⭐" type="checkbox" />
-						</Form.Group>
-						<Form.Group className="mb-3" controlId="5-stars">
-							<Form.Check label="1 ⭐" type="checkbox" />
-						</Form.Group>
-						<p className="fw-bold">Sort by Price:</p>
-						<Form.Group className="mb-3" controlId="5-stars">
-							<Form.Check
-								name="priceSort"
-								label="Low to High"
-								type="radio"
-							/>
-						</Form.Group>
-						<Form.Group className="mb-3" controlId="5-stars">
-							<Form.Check
-								name="priceSort"
-								label="High to Low"
-								type="radio"
-							/>
-						</Form.Group>
+					<Form
+						className="p-3 d-flex flex-column"
+						onSubmit={handleFilter}
+					>
+						<div
+							className="fw-bold py-1 text-white text-center mb-3"
+							style={{
+								backgroundColor: "#3EC167",
+							}}
+						>
+							FILTER:
+						</div>
+						<p style={{ fontSize: "0.9rem", margin: "5px" }}>
+							Category:
+						</p>
+						<Form.Select
+							size="sm"
+							name="category"
+							aria-label="product categories"
+						>
+							{PRODUCT_CATEGORIES.map((category) => (
+								<option key={category.id} value={category.id}>
+									{category.name}
+								</option>
+							))}
+						</Form.Select>
+						<p style={{ fontSize: "0.9rem", margin: "5px" }}>
+							Types:
+						</p>
+						<Form.Select
+							size="sm"
+							name="type"
+							aria-label="product types"
+						>
+							{PRODUCT_TYPES.map((type) => (
+								<option key={type} value={type}>
+									{type}
+								</option>
+							))}
+						</Form.Select>
+						<p style={{ fontSize: "0.9rem", margin: "5px" }}>
+							Country:
+						</p>
+						<Form.Select
+							size="sm"
+							name="country"
+							aria-label="country"
+						>
+							{COUNTRIES.map((country) => (
+								<option key={country} value={country}>
+									{country}
+								</option>
+							))}
+						</Form.Select>
+						<Button
+							type="submit"
+							className="fw-bold py-1 bg-success text-white text-center my-3"
+						>
+							Apply
+						</Button>
 					</Form>
 				</div>
 				{search.isSearching ? (
-					<div style={{ width: "85%", marginLeft: "220px" }}>
+					<div
+						style={{
+							width: "85%",
+							marginLeft: "220px",
+							paddingLeft: "10px",
+						}}
+					>
 						<p
 							style={{ fontSize: "0.8rem" }}
 							className="text-success"
@@ -65,10 +145,7 @@ const Home = () => {
 						</p>
 						{search.searchResults.length > 0 ? (
 							search.searchResults.map((resultObj) => (
-								<ProductList
-									title={"Fashion"}
-									products={resultObj.products}
-								/>
+								<ProductList products={resultObj.products} />
 							))
 						) : (
 							<>
@@ -78,30 +155,72 @@ const Home = () => {
 							</>
 						)}
 					</div>
+				) : search.isFiltering ? (
+					<div
+						style={{
+							width: "85%",
+							marginLeft: "220px",
+							paddingLeft: "10px",
+						}}
+					>
+						<p
+							style={{ fontSize: "0.8rem" }}
+							className="text-success"
+						>
+							Filter results:
+						</p>
+						{search.filterResults === null ? (
+							<>
+								<ShimmerHome />
+								<ShimmerHome />
+								<ShimmerHome />
+							</>
+						) : search.filterResults.length >= 1 ? (
+							<div className="d-flex flex-wrap">
+								{search.filterResults.map((product) => (
+									<ProductCard item={product} />
+								))}
+							</div>
+						) : (
+							<div>
+								<h5 className="text-danger text-center">
+									No products found for your search. You may
+									check these other products:
+								</h5>
+
+								<ProductList
+									products={products?.fashionBestSellers}
+								/>
+								<ProductList
+									products={products?.beautyBestSellers}
+								/>
+								<ProductList
+									products={products?.electronicsBestSellers}
+								/>
+								<ProductList
+									products={products?.groceryBestSellers}
+								/>
+								<ProductList
+									products={products?.videoGamesBestSellers}
+								/>
+							</div>
+						)}
+					</div>
 				) : (
-					<div style={{ width: "85%", marginLeft: "220px" }}>
+					<div
+						style={{
+							width: "85%",
+							marginLeft: "220px",
+							paddingLeft: "10px",
+						}}
+					>
+						<ProductList products={products?.fashionBestSellers} />
+						<ProductList products={products?.beautyBestSellers} />
 						<ProductList
-							title={"Fashion"}
-							products={products?.fashionBestSellers}
-						/>
-
-						<ProductList
-							title={"Beauty"}
-							products={products?.beautyBestSellers}
-						/>
-
-						<ProductList
-							title={"Electronics"}
 							products={products?.electronicsBestSellers}
 						/>
-
+						<ProductList products={products?.groceryBestSellers} />
 						<ProductList
-							title={"Grocery"}
-							products={products?.groceryBestSellers}
-						/>
-
-						<ProductList
-							title={"Video Games"}
 							products={products?.videoGamesBestSellers}
 						/>
 					</div>

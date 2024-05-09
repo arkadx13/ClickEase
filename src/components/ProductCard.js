@@ -3,17 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ item }) => {
 	const navigate = useNavigate();
-	console.log(item);
-
-	// const productTitle =
-	// 	item.product_title.length > 45
-	// 		? item.product_title.slice(0, 45) + "..."
-	// 		: item.product_title;
 
 	const productTitle =
-		item.product_title === null
-			? "Title is null"
-			: item.product_title.length > 45
+		item.product_title.length > 45
 			? item.product_title.slice(0, 45) + "..."
 			: item.product_title;
 

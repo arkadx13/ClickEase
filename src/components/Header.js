@@ -10,9 +10,11 @@ import { removeProducts, removeTargetProduct } from "../utils/productSlice";
 import Searches from "../api/Searches";
 import {
 	addSearchResults,
+	removeFilterResults,
 	removeSearchResults,
+	toggleIsFiltering,
 	toggleIsSearching,
-} from "../utils/gptSlice";
+} from "../utils/searchSlice";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -22,33 +24,37 @@ const Header = () => {
 
 	const handleSearch = async (e) => {
 		e.preventDefault();
-		navigate("/home");
-		dispatch(removeSearchResults());
-		dispatch(toggleIsSearching(true));
 		const keyword = e.target.elements.searchInput.value;
 
-		// Use GPT for getting suggestion based on keywords
-		const queryContent =
-			"Act as a Product Recommendation system and suggest some products for the query : " +
-			keyword +
-			". Only give me names of 5 products, forward slash separated like the example result given ahead. Example Result: Blanket/Lawn Mower/Board Game/Perfume/Watch .If query is only one word or two include the query in the result along with your suggestions.";
+		// Only proceed when search input is not empty
+		if (keyword.trim().length > 0) {
+			navigate("/home");
+			dispatch(removeSearchResults());
+			dispatch(toggleIsSearching(true));
 
-		const gptResult = await openai.chat.completions.create({
-			messages: [{ role: "user", content: queryContent }],
-			model: "gpt-3.5-turbo",
-		});
+			// Use GPT for getting suggestion based on keywords
+			const queryContent =
+				"Act as a Product Recommendation system and suggest some products for the query : " +
+				keyword +
+				". Only give me names of 5 products, forward slash separated like the example result given ahead. Example Result: Blanket/Lawn Mower/Board Game/Perfume/Watch .If query is only one word or two include the query in the result along with your suggestions.";
 
-		const keywordsArray =
-			gptResult.choices?.[0]?.message?.content.split("/");
+			const gptResult = await openai.chat.completions.create({
+				messages: [{ role: "user", content: queryContent }],
+				model: "gpt-3.5-turbo",
+			});
 
-		// Fetching data with query
-		keywordsArray.map((keyword, index) =>
-			Searches(`/search?query=${keyword}`)
-				.then((response) => {
-					dispatch(addSearchResults(response?.data?.data));
-				})
-				.catch((error) => console.log(error))
-		);
+			const keywordsArray =
+				gptResult.choices?.[0]?.message?.content.split("/");
+
+			// Fetching data with query
+			keywordsArray.map((keyword, index) =>
+				Searches(`/search?query=${keyword}`)
+					.then((response) => {
+						dispatch(addSearchResults(response?.data?.data));
+					})
+					.catch((error) => console.log(error))
+			);
+		}
 	};
 
 	const handleSignOut = () => {
@@ -93,6 +99,7 @@ const Header = () => {
 				dispatch(removeProducts());
 				dispatch(removeTargetProduct());
 				dispatch(removeSearchResults());
+				dispatch(removeFilterResults());
 				if (window.location.pathname === "/signup") {
 					navigate("/signup");
 				} else {
@@ -117,6 +124,8 @@ const Header = () => {
 						navigate("/home");
 						dispatch(removeTargetProduct());
 						dispatch(toggleIsSearching(false));
+						dispatch(removeFilterResults());
+						dispatch(toggleIsFiltering(false));
 					}}
 				>
 					ClickEase

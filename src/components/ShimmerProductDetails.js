@@ -45,7 +45,7 @@ const ShimmerProductDetails = () => {
 				<div className="w-25 mr-3">
 					<img
 						src={ImagePlaceholder}
-						alt="image placeholder"
+						alt="loading placeholder"
 						height={200}
 					/>
 					<div className="d-flex flex-row flex-wrap mt-3">
