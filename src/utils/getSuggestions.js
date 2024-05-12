@@ -3,7 +3,7 @@ import openai from "../api/openai";
 import { addSuggestions, removeSuggestions } from "./searchSlice";
 
 const getSuggestions = async (keyword, dispatch) => {
-	// Use GPT for getting suggestion based on keywords
+	// Use GPT for getting suggestion based on category and type filter inputs
 	const queryContent =
 		"Act as a Product Recommendation system and suggest a product for the product category : " +
 		keyword +

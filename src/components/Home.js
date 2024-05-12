@@ -8,7 +8,9 @@ import Footer from "./Footer";
 import {
 	COUNTRIES,
 	PRODUCT_CATEGORIES,
+	PRODUCT_CONDITION,
 	PRODUCT_TYPES,
+	SORT_BY,
 } from "../constants/constants";
 import Searches from "../api/Searches";
 import {
@@ -70,10 +72,7 @@ const Home = () => {
 		<div>
 			<Header />
 			<div className="d-flex flex-row" style={{ paddingTop: "100px" }}>
-				<div
-					style={{ width: "15%" }}
-					className="position-fixed z-index-3 text-success "
-				>
+				<div style={{ width: "15%" }} className="text-success">
 					<Form
 						className="p-3 d-flex flex-column"
 						onSubmit={handleFilter}
@@ -135,12 +134,78 @@ const Home = () => {
 							Apply
 						</Button>
 					</Form>
+					<Form className="p-3 d-flex flex-column">
+						<div
+							className="fw-bold py-1 text-white text-center mb-3"
+							style={{
+								backgroundColor: "#3EC167",
+							}}
+						>
+							ADVANCED SEARCH:
+						</div>
+						<Form.Group className="mb-3" controlId="query">
+							<Form.Label>Search</Form.Label>
+							<Form.Control type="text" placeholder="ex. phone" />
+						</Form.Group>
+						<p style={{ fontSize: "0.9rem", margin: "5px" }}>
+							Sort by:
+						</p>
+						<Form.Select name="sort_by">
+							{SORT_BY.map((sort) => (
+								<option key={sort} value={sort}>
+									{sort}
+								</option>
+							))}
+						</Form.Select>
+						<p style={{ fontSize: "0.9rem", margin: "5px" }}>
+							Condition:
+						</p>
+						<Form.Select name="conditon">
+							{PRODUCT_CONDITION.map((condition) => (
+								<option key={condition} value={condition}>
+									{condition}
+								</option>
+							))}
+						</Form.Select>
+						<p style={{ fontSize: "0.9rem", margin: "5px" }}>
+							Price range:
+						</p>
+						<div className="d-flex flex-row">
+							<Form.Control
+								step="1"
+								type="number"
+								name="minimum_price"
+								placeholder="₱ min"
+								className="w-50 mx-1"
+							/>
+							<Form.Control
+								step="1"
+								type="number"
+								name="maximum_price"
+								placeholder="₱ max"
+								className="w-50 mx-1"
+							/>
+						</div>
+
+						<Form.Group controlId="brand">
+							<Form.Label>Brand</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="ex. Samsung"
+							/>
+						</Form.Group>
+						<Button
+							type="submit"
+							className="fw-bold py-1 bg-success text-white text-center my-3"
+						>
+							Search
+						</Button>
+					</Form>
 				</div>
 				{search.isSearching ? (
 					<div
 						style={{
 							width: "85%",
-							marginLeft: "220px",
 							paddingLeft: "10px",
 						}}
 					>
@@ -166,7 +231,6 @@ const Home = () => {
 					<div
 						style={{
 							width: "85%",
-							marginLeft: "220px",
 							paddingLeft: "10px",
 						}}
 					>
@@ -214,7 +278,6 @@ const Home = () => {
 					<div
 						style={{
 							width: "85%",
-							marginLeft: "220px",
 							paddingLeft: "10px",
 						}}
 					>

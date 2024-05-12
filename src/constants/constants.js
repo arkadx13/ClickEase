@@ -343,3 +343,15 @@ export const COUNTRIES = [
 		id: "SE",
 	},
 ];
+
+// Search optional parameters
+export const SORT_BY = [
+	"RELEVANCE",
+	"LOWEST_PRICE",
+	"HIGHEST_PRICE",
+	"REVIEWS",
+	"NEWEST",
+	"BEST_SELLERS",
+];
+
+export const PRODUCT_CONDITION = ["NEW", "USED", "RENEWED", "COLLECTIBLE"];

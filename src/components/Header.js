@@ -1,5 +1,5 @@
 import openai from "../api/openai";
-import { Container } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
@@ -16,6 +16,7 @@ import {
 	toggleIsFiltering,
 	toggleIsSearching,
 } from "../utils/searchSlice";
+import { PRODUCT_CONDITION, SORT_BY } from "../constants/constants";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -155,6 +156,7 @@ const Header = () => {
 							</div>
 							<img
 								width={40}
+								height={40}
 								src={user?.photoURL}
 								alt="user icon"
 								className="mx-2 shadow rounded-circle"
