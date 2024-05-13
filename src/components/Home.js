@@ -38,19 +38,7 @@ const Home = () => {
 
 		const { category, type, country } = e.target.elements;
 
-		let parameters = "";
-
-		if (category) {
-			parameters += `category=${category.value}&`;
-		}
-
-		if (type) {
-			parameters += `type=${type.value}&`;
-		}
-
-		if (country) {
-			parameters += `country=${country.value}`;
-		}
+		let parameters = `category=${category.value}&type=${type.value}&country=${country.value}`;
 
 		console.log("parameters:", parameters);
 
@@ -64,6 +52,59 @@ const Home = () => {
 				}
 			})
 			.catch((error) => console.log(error));
+	};
+
+	const handleAdvancedSearch = (e) => {
+		e.preventDefault();
+
+		const {
+			query,
+			sort_by,
+			condition,
+			minimum_price,
+			maximum_price,
+			brand,
+		} = e.target.elements;
+
+		if (query.value.trim().length !== 0) {
+			console.log("valid api call");
+			dispatch(toggleIsSearching(false));
+			dispatch(removeFilterResults());
+			dispatch(toggleIsFiltering(true));
+			dispatch(removeSuggestions());
+
+			// assemble parameters for advanced search
+			let parameters = `query=${query.value.trim()}&sort_by=${
+				sort_by.value
+			}&condition=${condition.value}`;
+
+			if (minimum_price.value) {
+				parameters += `&min_price=${minimum_price.value}`;
+			}
+
+			if (maximum_price.value) {
+				parameters += `&max_price=${maximum_price.value}`;
+			}
+
+			if (brand.value) {
+				parameters += `&brand=${brand.value.trim()}`;
+			}
+
+			console.log("advanced search parameters: ", parameters);
+			Searches(`/search?${parameters}`)
+				.then((response) => {
+					console.log(response);
+					dispatch(addFilterResults(response?.data?.data?.products));
+					// Get suggestion if no products are found
+					if (response?.data?.data?.products.length === 0) {
+						getSuggestions(
+							`${query.value.trim()} ${brand.value.trim()}`,
+							dispatch
+						);
+					}
+				})
+				.catch((error) => console.log(error));
+		}
 	};
 
 	if (!products) return;
@@ -134,7 +175,10 @@ const Home = () => {
 							Apply
 						</Button>
 					</Form>
-					<Form className="p-3 d-flex flex-column">
+					<Form
+						className="p-3 d-flex flex-column"
+						onSubmit={handleAdvancedSearch}
+					>
 						<div
 							className="fw-bold py-1 text-white text-center mb-3"
 							style={{
@@ -150,7 +194,7 @@ const Home = () => {
 						<p style={{ fontSize: "0.9rem", margin: "5px" }}>
 							Sort by:
 						</p>
-						<Form.Select name="sort_by">
+						<Form.Select name="sort_by" id="sort_by">
 							{SORT_BY.map((sort) => (
 								<option key={sort} value={sort}>
 									{sort}
@@ -160,7 +204,7 @@ const Home = () => {
 						<p style={{ fontSize: "0.9rem", margin: "5px" }}>
 							Condition:
 						</p>
-						<Form.Select name="conditon">
+						<Form.Select name="conditon" id="condition">
 							{PRODUCT_CONDITION.map((condition) => (
 								<option key={condition} value={condition}>
 									{condition}
@@ -206,14 +250,14 @@ const Home = () => {
 					<div
 						style={{
 							width: "85%",
-							paddingLeft: "10px",
+							paddingLeft: "50px",
 						}}
 					>
 						<p
 							style={{ fontSize: "0.8rem" }}
 							className="text-success"
 						>
-							Search results:
+							Results:
 						</p>
 						{search.searchResults.length > 0 ? (
 							search.searchResults.map((resultObj) => (
@@ -231,14 +275,14 @@ const Home = () => {
 					<div
 						style={{
 							width: "85%",
-							paddingLeft: "10px",
+							paddingLeft: "50px",
 						}}
 					>
 						<p
 							style={{ fontSize: "0.8rem" }}
 							className="text-success"
 						>
-							Filter results:
+							Results:
 						</p>
 						{search.filterResults === null ? (
 							<>
@@ -247,7 +291,7 @@ const Home = () => {
 								<ShimmerHome />
 							</>
 						) : search.filterResults.length >= 1 ? (
-							<div className="d-flex flex-wrap justify-content-center">
+							<div className="d-flex flex-wrap justify-content-start">
 								{search?.filterResults?.map((product) => (
 									<ProductCard item={product} />
 								))}
@@ -265,7 +309,7 @@ const Home = () => {
 										<ShimmerHome />
 									</>
 								) : (
-									<div className="d-flex flex-wrap justify-content-center">
+									<div className="d-flex flex-wrap justify-content-start">
 										{search?.suggestions?.map((product) => (
 											<ProductCard item={product} />
 										))}
@@ -278,7 +322,7 @@ const Home = () => {
 					<div
 						style={{
 							width: "85%",
-							paddingLeft: "10px",
+							paddingLeft: "50px",
 						}}
 					>
 						<ProductList products={products?.fashionBestSellers} />

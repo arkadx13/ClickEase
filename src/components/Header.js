@@ -33,6 +33,7 @@ const Header = () => {
 			navigate("/home");
 			dispatch(removeSearchResults());
 			dispatch(toggleIsSearching(true));
+			dispatch(toggleIsFiltering(false));
 
 			// Use GPT for getting suggestion based on keywords
 			const queryContent =
