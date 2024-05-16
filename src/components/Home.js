@@ -236,6 +236,7 @@ const Home = () => {
 								name="minimum_price"
 								placeholder="₱ min"
 								className="w-50 mx-1"
+								min="0"
 							/>
 							<Form.Control
 								step="1"
@@ -243,6 +244,7 @@ const Home = () => {
 								name="maximum_price"
 								placeholder="₱ max"
 								className="w-50 mx-1"
+								min="0"
 							/>
 						</div>
 

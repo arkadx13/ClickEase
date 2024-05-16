@@ -2,9 +2,11 @@ import Header from "./Header";
 import Footer from "./Footer";
 import {
 	Button,
+	Card,
 	Carousel,
 	Container,
 	Form,
+	FormCheck,
 	OverlayTrigger,
 	Popover,
 } from "react-bootstrap";
@@ -12,15 +14,59 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
 import ShimmerProductDetails from "./ShimmerProductDetails";
 import ProductModal from "./ProductModal";
+import { useState } from "react";
 
 const ProductDetails = () => {
 	const dispatch = useDispatch();
-
 	const item = useSelector((store) => store?.products?.targetProduct);
 	const imageIndex = useSelector((store) => store?.modal?.imageIndex);
 	const showProductModal = useSelector(
 		(store) => store?.modal?.showProductModal
 	);
+
+	//Product ID
+	const [product, setProduct] = useState(item.asin);
+
+	//Product Color
+	const [color, setColor] = useState(null);
+
+	//Product Size
+	const [size, setSize] = useState(null);
+
+	// warning empty quantity
+	const [isQuantitytFilled, setIsQuantitytFilled] = useState(null);
+
+	console.log("product", product);
+
+	const handleChangeColor = (color, productId) => {
+		setColor(color);
+		setProduct(productId);
+	};
+
+	const handleChangeSize = (e) => {
+		setSize(e.target.value);
+	};
+
+	const handleAddToCart = (e) => {
+		e.preventDefault();
+
+		const { quantity } = e.target.elements;
+		if (quantity.value !== "") {
+			console.log("added to cart!");
+			setIsQuantitytFilled(true);
+
+			// item to store on cartSlice (use in cart page)
+			const cartItem = {
+				product: product,
+				color: color,
+				size: size,
+				quantity: quantity.value,
+			};
+			console.log(cartItem);
+		} else {
+			setIsQuantitytFilled(false);
+		}
+	};
 
 	if (!item) return;
 
@@ -68,9 +114,10 @@ const ProductDetails = () => {
 						>
 							{item.product_photos &&
 								item.product_photos.map((photoSrc, index) => (
-									<Carousel.Item key={index}>
+									<Carousel.Item
+										key={"carousel-item-" + index}
+									>
 										<img
-											key={index}
 											src={photoSrc}
 											height={300}
 											style={{
@@ -162,8 +209,11 @@ const ProductDetails = () => {
 							<h5>Product Details:</h5>
 							{item.product_details &&
 								Object.entries(item?.product_details).map(
-									(info) => (
-										<div className="d-flex flex-row">
+									(info, index) => (
+										<div
+											key={"product-details-" + index}
+											className="d-flex flex-row"
+										>
 											<span className="fw-bold w-25">
 												{info[0]}:
 											</span>{" "}
@@ -217,7 +267,10 @@ const ProductDetails = () => {
 								</>
 							)}
 						</div>
-						<Form className="mb-3 d-flex flex-column">
+						<Form
+							className="mb-3 d-flex flex-column"
+							onSubmit={handleAddToCart}
+						>
 							<h5>Color:</h5>
 							<div className="d-flex flex-row flex-wrap mx-1 mb-3">
 								{item.product_variations.color &&
@@ -225,7 +278,11 @@ const ProductDetails = () => {
 										(colorVariant) => {
 											return colorVariant.photo ? (
 												<OverlayTrigger
-													trigger="hover"
+													trigger={[
+														"hover",
+														"focus",
+														"click",
+													]}
 													key={colorVariant.asin}
 													placement="right"
 													overlay={
@@ -242,34 +299,66 @@ const ProductDetails = () => {
 														</Popover>
 													}
 												>
-													<Form.Check
-														inline
-														label={
-															colorVariant.value
+													<label
+														htmlFor={
+															colorVariant.asin
 														}
-														name="color_variant"
-														type="radio"
-														id={colorVariant.value}
-													/>
-													{/* <img
-														alt={`${colorVariant.value} color variant`}
-														width={60}
-														src={colorVariant.photo}
+														className="d-flex"
 														style={{
-															objectFit:
-																"contain",
-															border: "1px solid #C13E98",
-															marginRight: "5px",
+															width: "90px",
+															height: "auto",
+															marginRight: "25px",
 														}}
-													/> */}
+														onChange={(e) =>
+															handleChangeColor(
+																e.target.value,
+																colorVariant.asin
+															)
+														}
+													>
+														<input
+															type="radio"
+															id={
+																colorVariant.asin
+															}
+															name="color_variation"
+															value={
+																colorVariant.value
+															}
+														/>
+														<img
+															alt={`${colorVariant.value} color variant`}
+															src={
+																colorVariant.photo
+															}
+															style={{
+																objectFit:
+																	"contain",
+																border: "1px solid #C13E98",
+																marginRight:
+																	"5px",
+																marginBottom:
+																	"5px",
+																width: "100%",
+															}}
+														/>
+													</label>
 												</OverlayTrigger>
 											) : (
-												<div
+												<FormCheck
+													type="radio"
 													key={colorVariant.asin}
-													className="border m-2 p-1 text-decoration-none text-black"
-												>
-													{colorVariant.value}
-												</div>
+													name="color_variant"
+													className="border m-3 p-1"
+													label={colorVariant.value}
+													value={colorVariant.value}
+													onChange={(e) =>
+														handleChangeColor(
+															e.target.value,
+															colorVariant.asin
+														)
+													}
+												/>
 											);
 										}
 									)}
@@ -280,9 +369,23 @@ const ProductDetails = () => {
 									{item.product_variations.size &&
 										item?.product_variations?.size.map(
 											(sizeVariant) => (
-												<div className="border border-green m-2 p-1">
+												<label
+													key={sizeVariant.asin}
+													htmlFor={sizeVariant.asin}
+													className="border border-green m-2 p-2"
+													onChange={handleChangeSize}
+												>
+													<input
+														type="radio"
+														id={sizeVariant.asin}
+														name="size_variation"
+														className="m-1"
+														value={
+															sizeVariant.value
+														}
+													/>
 													{sizeVariant.value}
-												</div>
+												</label>
 											)
 										)}
 								</div>
@@ -291,16 +394,24 @@ const ProductDetails = () => {
 								controlId="quantity"
 								className="d-flex flex-row"
 							>
-								<h5 className="w-25">Quatity:</h5>
+								<h5 className="w-25">Quantity:</h5>
 								<Form.Control
+									step="1"
 									className="w-25"
 									type="number"
 									name="quantity"
-									value={1}
-									min={1}
+									min="1"
 								/>
+								{isQuantitytFilled === false && (
+									<p className="text-danger m-2">
+										Quantity must not be blank.
+									</p>
+								)}
 							</Form.Group>
-							<Button className="bg-success p-3 text-white my-5 w-25 align-self-center">
+							<Button
+								type="submit"
+								className="bg-success p-3 text-white my-5 w-25 align-self-center"
+							>
 								Add to cart
 							</Button>
 						</Form>
