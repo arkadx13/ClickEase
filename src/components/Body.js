@@ -5,6 +5,7 @@ import Error from "./Error";
 import ProductDetails from "./ProductDetails";
 import { useSelector } from "react-redux";
 import ShimmerProductDetails from "./ShimmerProductDetails";
+import Cart from "./Cart";
 
 function Body() {
 	const item = useSelector((store) => store?.products?.targetProduct);
@@ -29,6 +30,10 @@ function Body() {
 		{
 			path: "/product/:id",
 			element: item ? <ProductDetails /> : <ShimmerProductDetails />,
+		},
+		{
+			path: "/cart",
+			element: <Cart />,
 		},
 		{
 			path: "/error",

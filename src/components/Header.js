@@ -1,6 +1,6 @@
 import openai from "../api/openai";
 import { Container, Form } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,13 +10,14 @@ import { removeProducts, removeTargetProduct } from "../utils/productSlice";
 import Searches from "../api/Searches";
 import {
 	addSearchResults,
+	deleteErrors,
+	logErrors,
 	removeFilterResults,
 	removeSearchResults,
 	removeSuggestions,
 	toggleIsFiltering,
 	toggleIsSearching,
 } from "../utils/searchSlice";
-import { PRODUCT_CONDITION, SORT_BY } from "../constants/constants";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -55,7 +56,11 @@ const Header = () => {
 					.then((response) => {
 						dispatch(addSearchResults(response?.data?.data));
 					})
-					.catch((error) => console.log(error))
+					.catch((error) => {
+						navigate("/error");
+						dispatch(logErrors(error));
+						console.log(error);
+					})
 			);
 		}
 	};
@@ -68,6 +73,7 @@ const Header = () => {
 			.catch((error) => {
 				// An error happened.
 				navigate("/error");
+				dispatch(logErrors(error));
 			});
 	};
 
@@ -95,6 +101,10 @@ const Header = () => {
 					navigate("/home");
 				} else if (window.location.pathname === "/product/:id") {
 					navigate(`/product/${id}`);
+				}
+
+				if (window.location.pathname !== "/error") {
+					dispatch(deleteErrors());
 				}
 			} else {
 				// User is signed out
@@ -152,6 +162,17 @@ const Header = () => {
 							</button>
 						</form>
 						<div className="d-flex flex-row justify-content-between">
+							<Link
+								to="/cart"
+								className="d-inline-block p-2"
+								style={{
+									color: "#ffffff",
+									textDecoration: "none",
+									marginRight: "10px",
+								}}
+							>
+								Cart
+							</Link>
 							<div className="d-inline-block py-2">
 								{user?.displayName}
 							</div>

@@ -217,7 +217,7 @@ const ProductDetails = () => {
 								</>
 							)}
 						</div>
-						<Form className="mb-3">
+						<Form className="mb-3 d-flex flex-column">
 							<h5>Color:</h5>
 							<div className="d-flex flex-row flex-wrap mx-1 mb-3">
 								{item.product_variations.color &&
@@ -234,7 +234,7 @@ const ProductDetails = () => {
 														>
 															<img
 																alt={`${colorVariant.value} color variant`}
-																width={400}
+																width={200}
 																src={
 																	colorVariant.photo
 																}
@@ -242,7 +242,16 @@ const ProductDetails = () => {
 														</Popover>
 													}
 												>
-													<img
+													<Form.Check
+														inline
+														label={
+															colorVariant.value
+														}
+														name="color_variant"
+														type="radio"
+														id={colorVariant.value}
+													/>
+													{/* <img
 														alt={`${colorVariant.value} color variant`}
 														width={60}
 														src={colorVariant.photo}
@@ -252,7 +261,7 @@ const ProductDetails = () => {
 															border: "1px solid #C13E98",
 															marginRight: "5px",
 														}}
-													/>
+													/> */}
 												</OverlayTrigger>
 											) : (
 												<div
@@ -291,14 +300,9 @@ const ProductDetails = () => {
 									min={1}
 								/>
 							</Form.Group>
-							<div className="d-flex flex-row justify-content-start my-5 text-end">
-								<Button className="border border-success bg-white p-3 text-success mx-2">
-									Add to cart
-								</Button>
-								<Button className="bg-success p-3  mx-2">
-									Buy Now
-								</Button>
-							</div>
+							<Button className="bg-success p-3 text-white my-5 w-25 align-self-center">
+								Add to cart
+							</Button>
 						</Form>
 					</div>
 				</Container>

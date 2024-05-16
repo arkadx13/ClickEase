@@ -15,6 +15,7 @@ import {
 import Searches from "../api/Searches";
 import {
 	addFilterResults,
+	logErrors,
 	removeFilterResults,
 	removeSuggestions,
 	toggleIsFiltering,
@@ -22,9 +23,11 @@ import {
 } from "../utils/searchSlice";
 import ProductCard from "./ProductCard";
 import getSuggestions from "../utils/getSuggestions";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	useBestSellersProducts();
 	const products = useSelector((store) => store?.products);
 	const search = useSelector((store) => store?.search);
@@ -48,10 +51,18 @@ const Home = () => {
 				dispatch(addFilterResults(response?.data?.data?.best_sellers));
 				// Get suggestion if no products are found
 				if (response.data.data?.best_sellers.length === 0) {
-					getSuggestions(`${type.value} ${category.value}`, dispatch);
+					getSuggestions(
+						`${type.value} ${category.value}`,
+						dispatch,
+						navigate
+					);
 				}
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+				console.log(error);
+				dispatch(logErrors(error));
+				navigate("/error");
+			});
 	};
 
 	const handleAdvancedSearch = (e) => {
@@ -103,7 +114,11 @@ const Home = () => {
 						);
 					}
 				})
-				.catch((error) => console.log(error));
+				.catch((error) => {
+					console.log(error);
+					dispatch(logErrors(error));
+					navigate("/error");
+				});
 		}
 	};
 

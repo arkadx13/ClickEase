@@ -1,8 +1,8 @@
 import Searches from "../api/Searches";
 import openai from "../api/openai";
-import { addSuggestions, removeSuggestions } from "./searchSlice";
+import { addSuggestions, logErrors, removeSuggestions } from "./searchSlice";
 
-const getSuggestions = async (keyword, dispatch) => {
+const getSuggestions = async (keyword, dispatch, navigate) => {
 	// Use GPT for getting suggestion based on category and type filter inputs
 	const queryContent =
 		"Act as a Product Recommendation system and suggest a product for the product category : " +
@@ -26,7 +26,11 @@ const getSuggestions = async (keyword, dispatch) => {
 			dispatch(removeSuggestions());
 			dispatch(addSuggestions(response?.data?.data?.products));
 		})
-		.catch((error) => console.log(error));
+		.catch((error) => {
+			console.log(error);
+			dispatch(logErrors(error));
+			navigate("/error");
+		});
 };
 
 export default getSuggestions;

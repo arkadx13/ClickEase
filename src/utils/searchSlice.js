@@ -8,6 +8,7 @@ const searchSlice = createSlice({
 		searchResults: [],
 		filterResults: null,
 		suggestions: null,
+		error: null,
 	},
 	reducers: {
 		toggleIsSearching: (state, action) => {
@@ -17,7 +18,7 @@ const searchSlice = createSlice({
 		addSearchResults: (state, action) => {
 			state.searchResults.push(action.payload);
 		},
-		removeSearchResults: (state, action) => {
+		removeSearchResults: (state) => {
 			state.searchResults = [];
 		},
 		toggleIsFiltering: (state, action) => {
@@ -26,14 +27,20 @@ const searchSlice = createSlice({
 		addFilterResults: (state, action) => {
 			state.filterResults = action.payload;
 		},
-		removeFilterResults: (state, action) => {
+		removeFilterResults: (state) => {
 			state.filterResults = null;
 		},
 		addSuggestions: (state, action) => {
 			state.suggestions = action.payload;
 		},
-		removeSuggestions: (state, action) => {
+		removeSuggestions: (state) => {
 			state.suggestions = null;
+		},
+		logErrors: (state, action) => {
+			state.error = action.payload;
+		},
+		deleteErrors: (state) => {
+			state.error = null;
 		},
 	},
 });
@@ -47,6 +54,8 @@ export const {
 	removeFilterResults,
 	addSuggestions,
 	removeSuggestions,
+	logErrors,
+	deleteErrors,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

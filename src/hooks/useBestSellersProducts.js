@@ -8,9 +8,12 @@ import {
 	addGroceryBestSellers,
 	addVideoGamesBestSellers,
 } from "../utils/productSlice";
+import { logErrors } from "../utils/searchSlice";
+import { useNavigate } from "react-router-dom";
 
 const useBestSellersProducts = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	//Fashion
 	const getBestSellersFashion = () => {
@@ -20,7 +23,11 @@ const useBestSellersProducts = () => {
 					addFashionBestSellers(response?.data?.data?.best_sellers)
 				);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+				console.log(error);
+				dispatch(logErrors(error));
+				navigate("/error");
+			});
 	};
 
 	//Electronics
@@ -33,7 +40,11 @@ const useBestSellersProducts = () => {
 					)
 				);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+				console.log(error);
+				dispatch(logErrors(error));
+				navigate("/error");
+			});
 	};
 
 	//Beauty
@@ -44,7 +55,11 @@ const useBestSellersProducts = () => {
 					addBeautyBestSellers(response?.data?.data?.best_sellers)
 				);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+				console.log(error);
+				dispatch(logErrors(error));
+				navigate("/error");
+			});
 	};
 
 	//Grocery
@@ -55,7 +70,11 @@ const useBestSellersProducts = () => {
 					addGroceryBestSellers(response?.data?.data?.best_sellers)
 				);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+				console.log(error);
+				dispatch(logErrors(error));
+				navigate("/error");
+			});
 	};
 
 	//Video Games
@@ -66,7 +85,11 @@ const useBestSellersProducts = () => {
 					addVideoGamesBestSellers(response?.data?.data?.best_sellers)
 				);
 			})
-			.catch((error) => console.log(error));
+			.catch((error) => {
+				console.log(error);
+				dispatch(logErrors(error));
+				navigate("/error");
+			});
 	};
 
 	useEffect(() => {
