@@ -43,11 +43,8 @@ const Home = () => {
 
 		let parameters = `category=${category.value}&type=${type.value}&country=${country.value}`;
 
-		console.log("parameters:", parameters);
-
 		Searches(`/best-sellers?${parameters}`)
 			.then((response) => {
-				console.log(response?.data?.data?.best_sellers);
 				dispatch(addFilterResults(response?.data?.data?.best_sellers));
 				// Get suggestion if no products are found
 				if (response.data.data?.best_sellers.length === 0) {
@@ -59,7 +56,6 @@ const Home = () => {
 				}
 			})
 			.catch((error) => {
-				console.log(error);
 				dispatch(logErrors(error));
 				navigate("/error");
 			});
@@ -78,7 +74,6 @@ const Home = () => {
 		} = e.target.elements;
 
 		if (query.value.trim().length !== 0) {
-			console.log("valid api call");
 			dispatch(toggleIsSearching(false));
 			dispatch(removeFilterResults());
 			dispatch(toggleIsFiltering(true));
@@ -101,10 +96,8 @@ const Home = () => {
 				parameters += `&brand=${brand.value.trim()}`;
 			}
 
-			console.log("advanced search parameters: ", parameters);
 			Searches(`/search?${parameters}`)
 				.then((response) => {
-					console.log(response);
 					dispatch(addFilterResults(response?.data?.data?.products));
 					// Get suggestion if no products are found
 					if (response?.data?.data?.products.length === 0) {
@@ -115,7 +108,6 @@ const Home = () => {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 					dispatch(logErrors(error));
 					navigate("/error");
 				});

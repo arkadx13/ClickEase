@@ -93,7 +93,7 @@ const useBestSellersProducts = () => {
 	};
 
 	useEffect(() => {
-		// getBestSellersFashion();
+		getBestSellersFashion();
 		// getBestSellersElectronics();
 		// getBestSellersBeauty();
 		// getBestSellersGrocery();

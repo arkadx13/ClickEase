@@ -15,9 +15,14 @@ import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
 import ShimmerProductDetails from "./ShimmerProductDetails";
 import ProductModal from "./ProductModal";
 import { useState } from "react";
+import { addToCart } from "../utils/cartSlice";
+import Searches from "../api/Searches";
+import { logErrors } from "../utils/searchSlice";
+import { useNavigate } from "react-router-dom";
 
 const ProductDetails = () => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const item = useSelector((store) => store?.products?.targetProduct);
 	const imageIndex = useSelector((store) => store?.modal?.imageIndex);
 	const showProductModal = useSelector(
@@ -36,8 +41,6 @@ const ProductDetails = () => {
 	// warning empty quantity
 	const [isQuantitytFilled, setIsQuantitytFilled] = useState(null);
 
-	console.log("product", product);
-
 	const handleChangeColor = (color, productId) => {
 		setColor(color);
 		setProduct(productId);
@@ -55,14 +58,22 @@ const ProductDetails = () => {
 			console.log("added to cart!");
 			setIsQuantitytFilled(true);
 
-			// item to store on cartSlice (use in cart page)
-			const cartItem = {
-				product: product,
-				color: color,
-				size: size,
-				quantity: quantity.value,
-			};
-			console.log(cartItem);
+			// get the product data using product ID
+			Searches(`/product-details?asin=${product}`)
+				.then((response) => {
+					// item to store on cartSlice (use in cart page)
+					const cartItem = {
+						product: response?.data?.data,
+						color: color,
+						size: size,
+						quantity: quantity.value,
+					};
+					dispatch(addToCart(cartItem));
+				})
+				.catch((error) => {
+					dispatch(logErrors(error));
+					navigate("/error");
+				});
 		} else {
 			setIsQuantitytFilled(false);
 		}
@@ -181,8 +192,8 @@ const ProductDetails = () => {
 						</div>
 						<div className="bg-light fs-2 p-3 mb-3 text-success">
 							{item.is_best_seller && (
-								<div class="ribbon-content">
-									<div class="ribbon best-seller">
+								<div className="ribbon-content">
+									<div className="ribbon best-seller">
 										<span className="large">
 											Best Seller
 										</span>
@@ -193,11 +204,13 @@ const ProductDetails = () => {
 								className="mx-3"
 								style={{ color: "lightgrey" }}
 							>
-								<s>{item.product_price_max}</s>
+								<s>{item.product_original_price}</s>
 							</span>
-							{item.product_price.includes("$")
-								? item.product_price
-								: "$" + item.product_price}
+							{item.product_price === null
+								? "unavailable"
+								: !item.product_price.includes("$")
+								? " $ " + item.product_price
+								: item.product_price}
 						</div>
 						{item.product_description && (
 							<div className="mb-3">
@@ -345,20 +358,28 @@ const ProductDetails = () => {
 													</label>
 												</OverlayTrigger>
 											) : (
-												<FormCheck
-													type="radio"
+												<label
 													key={colorVariant.asin}
-													name="color_variant"
-													className="border m-3 p-1"
-													label={colorVariant.value}
-													value={colorVariant.value}
+													htmlFor={colorVariant.asin}
+													className="border  m-2 p-2"
 													onChange={(e) =>
 														handleChangeColor(
 															e.target.value,
 															colorVariant.asin
 														)
 													}
-												/>
+												>
+													<input
+														type="radio"
+														id={colorVariant.asin}
+														name="color_variation"
+														className="m-1"
+														value={
+															colorVariant.value
+														}
+													/>
+													{colorVariant.value}
+												</label>
 											);
 										}
 									)}
@@ -372,7 +393,7 @@ const ProductDetails = () => {
 												<label
 													key={sizeVariant.asin}
 													htmlFor={sizeVariant.asin}
-													className="border border-green m-2 p-2"
+													className="border m-2 p-2"
 													onChange={handleChangeSize}
 												>
 													<input

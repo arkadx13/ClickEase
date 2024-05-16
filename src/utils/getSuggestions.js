@@ -14,20 +14,13 @@ const getSuggestions = async (keyword, dispatch, navigate) => {
 		model: "gpt-3.5-turbo",
 	});
 
-	console.log(
-		`Category ${keyword} => suggested keyword:`,
-		gptResult.choices?.[0]?.message?.content
-	);
-
 	// Fetching data with query
 	Searches(`/search?query=${gptResult.choices?.[0]?.message?.content}`)
 		.then((response) => {
-			console.log("Suggested products:", response?.data?.data?.products);
 			dispatch(removeSuggestions());
 			dispatch(addSuggestions(response?.data?.data?.products));
 		})
 		.catch((error) => {
-			console.log(error);
 			dispatch(logErrors(error));
 			navigate("/error");
 		});

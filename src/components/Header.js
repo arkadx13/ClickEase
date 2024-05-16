@@ -23,7 +23,8 @@ const Header = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { id } = useParams();
-	const user = useSelector((store) => store.user);
+	const user = useSelector((store) => store?.user);
+	const cart = useSelector((store) => store?.cart?.cart);
 
 	const handleSearch = async (e) => {
 		e.preventDefault();
@@ -59,7 +60,6 @@ const Header = () => {
 					.catch((error) => {
 						navigate("/error");
 						dispatch(logErrors(error));
-						console.log(error);
 					})
 			);
 		}
@@ -103,8 +103,14 @@ const Header = () => {
 					navigate(`/product/${id}`);
 				}
 
+				// clear error when leaving Error page
 				if (window.location.pathname !== "/error") {
 					dispatch(deleteErrors());
+				}
+
+				// clear target product data from store when leaving ProductDetails page and going to cart
+				if (window.location.pathname === "/cart") {
+					dispatch(removeTargetProduct());
 				}
 			} else {
 				// User is signed out
@@ -171,7 +177,7 @@ const Header = () => {
 									marginRight: "10px",
 								}}
 							>
-								Cart
+								Cart ({cart.length})
 							</Link>
 							<div className="d-inline-block py-2">
 								{user?.displayName}

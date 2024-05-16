@@ -15,7 +15,6 @@ const useTargetProduct = (productId) => {
 				dispatch(addTargetProduct(response?.data?.data));
 			})
 			.catch((error) => {
-				console.log(error);
 				dispatch(logErrors(error));
 				navigate("/error");
 			});
