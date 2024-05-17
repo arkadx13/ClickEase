@@ -226,7 +226,7 @@ const Home = () => {
 								step="1"
 								type="number"
 								name="minimum_price"
-								placeholder="₱ min"
+								placeholder="$ min"
 								className="w-50 mx-1"
 								min="0"
 							/>
@@ -234,7 +234,7 @@ const Home = () => {
 								step="1"
 								type="number"
 								name="maximum_price"
-								placeholder="₱ max"
+								placeholder="$ max"
 								className="w-50 mx-1"
 								min="0"
 							/>
