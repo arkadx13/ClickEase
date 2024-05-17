@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import combineCartItems from "./combineCartItems";
 
 const cartSlice = createSlice({
 	name: "cart",
@@ -9,6 +10,8 @@ const cartSlice = createSlice({
 	reducers: {
 		addToCart: (state, action) => {
 			state.cart.unshift(action.payload);
+			const cartReduced = combineCartItems(state.cart);
+			state.cart = cartReduced;
 		},
 		deleteCartItem: (state, action) => {
 			state.cart.splice(action.payload, 1);

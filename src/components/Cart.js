@@ -41,12 +41,16 @@ const Cart = () => {
 			<Container style={{ marginBottom: "400px" }}>
 				{cart.length === 0 ? (
 					<div className="d-flex flex-column align-items-center vh-100 w-100">
-						<h4
-							className="text-success"
-							style={{ paddingTop: "200px" }}
+						<h1
+							className="fs-3 text-success text-center fw-bold w-100 py-2 mb-3"
+							style={{
+								marginTop: "100px",
+								borderBottom: "2px solid green",
+							}}
 						>
-							Cart is empty.
-						</h4>
+							Cart
+						</h1>
+						<h4 className="text-success mt-3">Cart is empty.</h4>
 						<p>Find products that you like.</p>
 						<Link
 							to="/home"

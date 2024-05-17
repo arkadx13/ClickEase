@@ -18,7 +18,6 @@ const CartItem = ({ item, index }) => {
 	const handleDeleteItem = () => {
 		// call modal confirmation delete
 		dispatch(toggleDeleteItemModal(true));
-		console.log(index);
 		dispatch(changeDeleteIndex(index));
 	};
 

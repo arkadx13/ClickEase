@@ -64,7 +64,6 @@ const ProductDetails = () => {
 		const { quantity } = e.target.elements;
 
 		if (quantity.value !== "") {
-			console.log("added to cart!");
 			setIsQuantitytFilled(true);
 			setIsAddingToCart(true);
 
