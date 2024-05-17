@@ -1,13 +1,18 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { deleteCartItem } from "../utils/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { toggleDeleteItemModal } from "../utils/modalSlice";
 
 const CartItem = ({ item, index }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { product, color, size, quantity } = item;
+
+	const handleDeleteItem = () => {
+		// call modal confirmation delete
+		dispatch(toggleDeleteItemModal(true));
+	};
 
 	return (
 		<div
@@ -54,10 +59,7 @@ const CartItem = ({ item, index }) => {
 					? " $ " + product.product_price
 					: product.product_price}
 			</div>
-			<Button
-				className="bg-danger text-white"
-				onClick={() => dispatch(deleteCartItem(index))}
-			>
+			<Button className="bg-danger text-white" onClick={handleDeleteItem}>
 				Delete
 			</Button>
 		</div>

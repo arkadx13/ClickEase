@@ -24,8 +24,8 @@ const ProductCard = ({ item }) => {
 			onClick={() => showProductDetails(item.asin)}
 		>
 			{item.is_best_seller && (
-				<div class="ribbon-content">
-					<div class="ribbon best-seller">
+				<div className="ribbon-content">
+					<div className="ribbon best-seller">
 						<span>Best Seller</span>
 					</div>
 				</div>

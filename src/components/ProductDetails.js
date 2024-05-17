@@ -9,12 +9,15 @@ import {
 	FormCheck,
 	OverlayTrigger,
 	Popover,
+	Spinner,
+	Toast,
+	ToastContainer,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
 import ShimmerProductDetails from "./ShimmerProductDetails";
 import ProductModal from "./ProductModal";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { addToCart } from "../utils/cartSlice";
 import Searches from "../api/Searches";
 import { logErrors } from "../utils/searchSlice";
@@ -28,9 +31,9 @@ const ProductDetails = () => {
 	const showProductModal = useSelector(
 		(store) => store?.modal?.showProductModal
 	);
-
 	//Product ID
 	const [product, setProduct] = useState(item.asin);
+	const [productTitle, setProductTitle] = useState("");
 
 	//Product Color
 	const [color, setColor] = useState(null);
@@ -40,6 +43,15 @@ const ProductDetails = () => {
 
 	// warning empty quantity
 	const [isQuantitytFilled, setIsQuantitytFilled] = useState(null);
+
+	// Use for resetting the form after submission
+	const formRef = useRef(null);
+
+	// Toast toggle
+	const [showToast, setShowToast] = useState(false);
+
+	// Loading add to cart button
+	const [isAddingTocart, setIsAddingToCart] = useState(false);
 
 	const handleChangeColor = (color, productId) => {
 		setColor(color);
@@ -52,6 +64,7 @@ const ProductDetails = () => {
 
 	const handleAddToCart = (e) => {
 		e.preventDefault();
+		setIsAddingToCart(true);
 
 		const { quantity } = e.target.elements;
 		if (quantity.value !== "") {
@@ -69,6 +82,15 @@ const ProductDetails = () => {
 						quantity: quantity.value,
 					};
 					dispatch(addToCart(cartItem));
+					// Reset the form and state
+					setColor(null);
+					setSize(null);
+					setIsQuantitytFilled(null);
+					setProductTitle(response?.data?.data?.product_title);
+					setShowToast(true);
+					setIsAddingToCart(null);
+					formRef.current.reset();
+					//window.scrollTo(0, 0);  Scrolls to the top of the window
 				})
 				.catch((error) => {
 					dispatch(logErrors(error));
@@ -100,7 +122,32 @@ const ProductDetails = () => {
 	return item === null ? (
 		<ShimmerProductDetails />
 	) : (
-		<div className="d-flex flex-column justify-content-between">
+		<div className="d-flex flex-column justify-content-between position-relative">
+			{showToast && (
+				<Toast
+					bg="success"
+					style={{
+						position: "absolute",
+						bottom: "300px",
+						right: "10px",
+						zIndex: "9999",
+						float: "right",
+						height: "auto",
+					}}
+					onClose={() => setShowToast(false)}
+					show={showToast}
+					delay={3000}
+					autohide
+				>
+					<Toast.Header>
+						<strong className="me-auto">ClickEase</strong>
+						<small>a few seconds ago</small>
+					</Toast.Header>
+					<Toast.Body className="text-white">
+						{productTitle} added to cart!
+					</Toast.Body>
+				</Toast>
+			)}
 			<Header />
 			{item && (
 				<Container
@@ -281,6 +328,7 @@ const ProductDetails = () => {
 							)}
 						</div>
 						<Form
+							ref={formRef}
 							className="mb-3 d-flex flex-column"
 							onSubmit={handleAddToCart}
 						>
@@ -433,7 +481,20 @@ const ProductDetails = () => {
 								type="submit"
 								className="bg-success p-3 text-white my-5 w-25 align-self-center"
 							>
-								Add to cart
+								{isAddingTocart ? (
+									<>
+										<Spinner
+											as="span"
+											animation="border"
+											size="sm"
+											role="status"
+											aria-hidden="true"
+										/>{" "}
+										Adding item...
+									</>
+								) : (
+									"Add to cart"
+								)}
 							</Button>
 						</Form>
 					</div>
