@@ -1,5 +1,5 @@
 import openai from "../api/openai";
-import { Container, Form } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
