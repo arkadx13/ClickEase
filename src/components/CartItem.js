@@ -1,17 +1,25 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toggleDeleteItemModal } from "../utils/modalSlice";
+import { changeDeleteIndex, deleteCartItem } from "../utils/cartSlice";
+import DeleteModal from "./DeleteModal";
 
 const CartItem = ({ item, index }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { product, color, size, quantity } = item;
+	const showDeleteItemModal = useSelector(
+		(store) => store?.modal?.showDeleteItemModal
+	);
+	const deleteIndex = useSelector((store) => store?.cart?.deleteIndex);
 
 	const handleDeleteItem = () => {
 		// call modal confirmation delete
 		dispatch(toggleDeleteItemModal(true));
+		console.log(index);
+		dispatch(changeDeleteIndex(index));
 	};
 
 	return (
@@ -19,6 +27,17 @@ const CartItem = ({ item, index }) => {
 			className="mb-3 border w-100 d-flex flex-row justify-content-between p-3"
 			style={{ fontSize: "0.9rem" }}
 		>
+			{showDeleteItemModal && (
+				<DeleteModal
+					show={showDeleteItemModal}
+					deleteAction={() => {
+						dispatch(deleteCartItem(deleteIndex));
+						dispatch(toggleDeleteItemModal(false));
+						dispatch(changeDeleteIndex(null));
+					}}
+					message={"Are you sure you want to delete this item?"}
+				/>
+			)}
 			<div
 				className="w-25 px-1 d-flex"
 				onClick={() => {
@@ -29,6 +48,7 @@ const CartItem = ({ item, index }) => {
 					src={product.product_photo}
 					width={80}
 					height={80}
+					alt={product.product_title}
 					style={{
 						objectFit: "contain",
 						border: "1px solid #C13E98",

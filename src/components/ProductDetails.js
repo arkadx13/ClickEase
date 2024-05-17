@@ -2,16 +2,13 @@ import Header from "./Header";
 import Footer from "./Footer";
 import {
 	Button,
-	Card,
 	Carousel,
 	Container,
 	Form,
-	FormCheck,
 	OverlayTrigger,
 	Popover,
 	Spinner,
 	Toast,
-	ToastContainer,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
@@ -64,12 +61,12 @@ const ProductDetails = () => {
 
 	const handleAddToCart = (e) => {
 		e.preventDefault();
-		setIsAddingToCart(true);
-
 		const { quantity } = e.target.elements;
+
 		if (quantity.value !== "") {
 			console.log("added to cart!");
 			setIsQuantitytFilled(true);
+			setIsAddingToCart(true);
 
 			// get the product data using product ID
 			Searches(`/product-details?asin=${product}`)
@@ -90,7 +87,6 @@ const ProductDetails = () => {
 					setShowToast(true);
 					setIsAddingToCart(null);
 					formRef.current.reset();
-					//window.scrollTo(0, 0);  Scrolls to the top of the window
 				})
 				.catch((error) => {
 					dispatch(logErrors(error));

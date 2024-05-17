@@ -18,6 +18,7 @@ import {
 	toggleIsFiltering,
 	toggleIsSearching,
 } from "../utils/searchSlice";
+import { toggleDeleteItemModal } from "../utils/modalSlice";
 
 const Header = () => {
 	const navigate = useNavigate();
@@ -69,6 +70,7 @@ const Header = () => {
 		signOut(auth)
 			.then(() => {
 				// Sign-out successful.
+				navigate("/");
 			})
 			.catch((error) => {
 				// An error happened.
@@ -120,6 +122,7 @@ const Header = () => {
 				dispatch(removeSearchResults());
 				dispatch(removeFilterResults());
 				dispatch(removeSuggestions());
+				dispatch(toggleDeleteItemModal(false));
 				if (window.location.pathname === "/signup") {
 					navigate("/signup");
 				} else {

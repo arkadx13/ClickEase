@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import CartItem from "./CartItem";
-import { deleteCartItem, emptyCart } from "../utils/cartSlice";
+import { emptyCart } from "../utils/cartSlice";
 import { useEffect } from "react";
 import DeleteModal from "./DeleteModal";
 import { toggleShowEmptyCartModal } from "../utils/modalSlice";
@@ -14,9 +14,6 @@ const Cart = () => {
 	const cart = useSelector((store) => store?.cart?.cart);
 	const showEmptyCartModal = useSelector(
 		(store) => store?.modal?.showEmptyCartModal
-	);
-	const showDeleteItemModal = useSelector(
-		(store) => store?.modal?.showDeleteItemModal
 	);
 
 	const totalPrice = cart.reduce((acc, currItem) => {
@@ -39,11 +36,11 @@ const Cart = () => {
 	};
 
 	return (
-		<div className="d-flex flex-column justify-content-between">
+		<div>
 			<Header />
-			<Container className="d-flex flex-column align-items-center">
+			<Container style={{ marginBottom: "400px" }}>
 				{cart.length === 0 ? (
-					<>
+					<div className="d-flex flex-column align-items-center vh-100 w-100">
 						<h4
 							className="text-success"
 							style={{ paddingTop: "200px" }}
@@ -57,9 +54,9 @@ const Cart = () => {
 						>
 							Browse
 						</Link>
-					</>
+					</div>
 				) : (
-					<>
+					<div className="d-flex flex-column align-items-center">
 						<h1
 							className="fs-3 text-success text-center fw-bold w-100 py-2 mb-3"
 							style={{
@@ -76,37 +73,28 @@ const Cart = () => {
 							Empty cart
 						</Button>
 						{cart.map((item, index) => (
-							<>
-								<CartItem
-									key={"cart-" + index}
-									item={item}
-									index={index}
-								/>
-								{showDeleteItemModal && (
-									<DeleteModal
-										show={showDeleteItemModal}
-										deleteAction={() =>
-											dispatch(deleteCartItem(index))
-										}
-										message={
-											"Are you sure you want to delete this item?"
-										}
-									/>
-								)}
-							</>
+							<CartItem
+								key={"cart-" + index}
+								item={item}
+								index={index}
+							/>
 						))}
 						<div className="mb-3 align-self-end">
 							<span className="fw-bold">Total: </span>${" "}
 							{totalPrice.toFixed(2)}
 						</div>
-					</>
+					</div>
 				)}
 			</Container>
 			<Footer />
 			{showEmptyCartModal && (
 				<DeleteModal
 					show={showEmptyCartModal}
-					deleteAction={() => dispatch(emptyCart())}
+					deleteAction={() => {
+						dispatch(emptyCart());
+						dispatch(toggleShowEmptyCartModal(false));
+						window.scrollTo(0, 0); // Scrolls to the top of the window
+					}}
 					message={
 						"Are you sure you want to delete all items in Cart?"
 					}
