@@ -23,10 +23,10 @@ import { useNavigate } from "react-router-dom";
 const ProductDetails = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const item = useSelector((store) => store?.products?.targetProduct);
-	const imageIndex = useSelector((store) => store?.modal?.imageIndex);
+	const item = useSelector((store) => store.products?.targetProduct);
+	const imageIndex = useSelector((store) => store.modal?.imageIndex);
 	const showProductModal = useSelector(
-		(store) => store?.modal?.showProductModal
+		(store) => store.modal?.showProductModal
 	);
 	//Product ID
 	const [product, setProduct] = useState(item.asin);
@@ -72,7 +72,7 @@ const ProductDetails = () => {
 				.then((response) => {
 					// item to store on cartSlice (use in cart page)
 					const cartItem = {
-						product: response?.data?.data,
+						product: response.data?.data,
 						color: color,
 						size: size,
 						quantity: quantity.value,
@@ -82,7 +82,7 @@ const ProductDetails = () => {
 					setColor(null);
 					setSize(null);
 					setIsQuantitytFilled(null);
-					setProductTitle(response?.data?.data?.product_title);
+					setProductTitle(response.data?.data?.product_title);
 					setShowToast(true);
 					setIsAddingToCart(null);
 					formRef.current.reset();
@@ -101,12 +101,12 @@ const ProductDetails = () => {
 	// get number of stars
 	let starCounts = "";
 
-	for (let i = 0; i < Math.floor(Number(item?.product_star_rating)); i++) {
+	for (let i = 0; i < Math.floor(Number(item.product_star_rating)); i++) {
 		starCounts += "⭐";
 	}
 
 	// get the total number user ratings
-	const numberOfRatings = Object.values(item?.rating_distribution).reduce(
+	const numberOfRatings = Object.values(item.rating_distribution).reduce(
 		(acc, currVal) => {
 			acc += Number(currVal);
 			return acc;
@@ -263,7 +263,7 @@ const ProductDetails = () => {
 						<div className="mb-3">
 							<h5>Product Details:</h5>
 							{item.product_details &&
-								Object.entries(item?.product_details).map(
+								Object.entries(item.product_details).map(
 									(info, index) => (
 										<div
 											key={"product-details-" + index}
@@ -330,7 +330,7 @@ const ProductDetails = () => {
 							<h5>Color:</h5>
 							<div className="d-flex flex-row flex-wrap mx-1 mb-3">
 								{item.product_variations.color &&
-									item?.product_variations?.color.map(
+									item.product_variations?.color.map(
 										(colorVariant) => {
 											return colorVariant.photo ? (
 												<OverlayTrigger
@@ -431,7 +431,7 @@ const ProductDetails = () => {
 							<div className="d-flex flex-row flex-wrap m-1">
 								<div className="d-flex flex-row flex-wrap m-1">
 									{item.product_variations.size &&
-										item?.product_variations?.size.map(
+										item.product_variations?.size.map(
 											(sizeVariant) => (
 												<label
 													key={sizeVariant.asin}

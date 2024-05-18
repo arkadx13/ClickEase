@@ -11,9 +11,9 @@ const CartItem = ({ item, index }) => {
 	const navigate = useNavigate();
 	const { product, color, size, quantity } = item;
 	const showDeleteItemModal = useSelector(
-		(store) => store?.modal?.showDeleteItemModal
+		(store) => store.modal?.showDeleteItemModal
 	);
-	const deleteIndex = useSelector((store) => store?.cart?.deleteIndex);
+	const deleteIndex = useSelector((store) => store.cart?.deleteIndex);
 
 	const handleDeleteItem = () => {
 		// call modal confirmation delete

@@ -6,7 +6,7 @@ const ProductList = ({ products }) => {
 		<ShimmerHome />
 	) : (
 		<div className="d-flex flex-row overflow-auto">
-			{products?.map((product) => (
+			{products.map((product) => (
 				<ProductCard key={product.asin} item={product} />
 			))}
 		</div>

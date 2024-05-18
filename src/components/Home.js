@@ -29,8 +29,8 @@ const Home = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	useBestSellersProducts();
-	const products = useSelector((store) => store?.products);
-	const search = useSelector((store) => store?.search);
+	const products = useSelector((store) => store.products);
+	const search = useSelector((store) => store.search);
 
 	const handleFilter = (e) => {
 		e.preventDefault();
@@ -45,9 +45,9 @@ const Home = () => {
 
 		Searches(`/best-sellers?${parameters}`)
 			.then((response) => {
-				dispatch(addFilterResults(response?.data?.data?.best_sellers));
+				dispatch(addFilterResults(response.data?.data?.best_sellers));
 				// Get suggestion if no products are found
-				if (response.data.data?.best_sellers.length === 0) {
+				if (response.data?.data?.best_sellers.length === 0) {
 					getSuggestions(
 						`${type.value} ${category.value}`,
 						dispatch,
@@ -98,9 +98,9 @@ const Home = () => {
 
 			Searches(`/search?${parameters}`)
 				.then((response) => {
-					dispatch(addFilterResults(response?.data?.data?.products));
+					dispatch(addFilterResults(response.data?.data?.products));
 					// Get suggestion if no products are found
-					if (response?.data?.data?.products.length === 0) {
+					if (response.data?.data?.products.length === 0) {
 						getSuggestions(
 							`${query.value.trim()} ${brand.value.trim()}`,
 							dispatch
@@ -301,8 +301,11 @@ const Home = () => {
 							</>
 						) : search.filterResults.length >= 1 ? (
 							<div className="d-flex flex-wrap justify-content-start">
-								{search?.filterResults?.map((product) => (
-									<ProductCard item={product} />
+								{search.filterResults.map((product, index) => (
+									<ProductCard
+										key={`filter-${index}`}
+										item={product}
+									/>
 								))}
 							</div>
 						) : (
@@ -319,7 +322,7 @@ const Home = () => {
 									</>
 								) : (
 									<div className="d-flex flex-wrap justify-content-start">
-										{search?.suggestions?.map((product) => (
+										{search.suggestions.map((product) => (
 											<ProductCard item={product} />
 										))}
 									</div>
