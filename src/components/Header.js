@@ -24,8 +24,8 @@ const Header = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { id } = useParams();
-	const user = useSelector((store) => store.user);
-	const cart = useSelector((store) => store.cart?.cart);
+	const user = useSelector((store) => store?.user);
+	const cart = useSelector((store) => store?.cart?.cart);
 
 	const handleSearch = async (e) => {
 		e.preventDefault();
@@ -56,7 +56,7 @@ const Header = () => {
 			keywordsArray.map((keyword) =>
 				Searches(`/search?query=${keyword}`)
 					.then((response) => {
-						dispatch(addSearchResults(response.data?.data));
+						dispatch(addSearchResults(response?.data?.data));
 					})
 					.catch((error) => {
 						navigate("/error");
@@ -183,12 +183,12 @@ const Header = () => {
 								Cart ({cart.length})
 							</Link>
 							<div className="d-inline-block py-2">
-								{user.displayName}
+								{user?.displayName}
 							</div>
 							<img
 								width={40}
 								height={40}
-								src={user.photoURL}
+								src={user?.photoURL}
 								alt="user icon"
 								className="mx-2 shadow rounded-circle"
 							/>

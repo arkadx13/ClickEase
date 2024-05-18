@@ -20,7 +20,7 @@ const useBestSellersProducts = () => {
 		Searches("/best-sellers?category=fashion&page=1")
 			.then((response) => {
 				dispatch(
-					addFashionBestSellers(response.data?.data?.best_sellers)
+					addFashionBestSellers(response?.data?.data?.best_sellers)
 				);
 			})
 			.catch((error) => {
@@ -35,7 +35,9 @@ const useBestSellersProducts = () => {
 		Searches("/best-sellers?category=electronics&page=1")
 			.then((response) => {
 				dispatch(
-					addElectronicsBestSellers(response.data?.data?.best_sellers)
+					addElectronicsBestSellers(
+						response?.data?.data?.best_sellers
+					)
 				);
 			})
 			.catch((error) => {
@@ -50,7 +52,7 @@ const useBestSellersProducts = () => {
 		Searches("/best-sellers?category=beauty&page=1")
 			.then((response) => {
 				dispatch(
-					addBeautyBestSellers(response.data?.data?.best_sellers)
+					addBeautyBestSellers(response?.data?.data?.best_sellers)
 				);
 			})
 			.catch((error) => {
@@ -65,7 +67,7 @@ const useBestSellersProducts = () => {
 		Searches("/best-sellers?category=grocery&page=1")
 			.then((response) => {
 				dispatch(
-					addGroceryBestSellers(response.data?.data?.best_sellers)
+					addGroceryBestSellers(response?.data?.data?.best_sellers)
 				);
 			})
 			.catch((error) => {
@@ -80,7 +82,7 @@ const useBestSellersProducts = () => {
 		Searches("/best-sellers?category=videogames&page=1")
 			.then((response) => {
 				dispatch(
-					addVideoGamesBestSellers(response.data?.data?.best_sellers)
+					addVideoGamesBestSellers(response?.data?.data?.best_sellers)
 				);
 			})
 			.catch((error) => {

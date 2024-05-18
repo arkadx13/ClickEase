@@ -8,7 +8,7 @@ import ShimmerProductDetails from "./ShimmerProductDetails";
 import Cart from "./Cart";
 
 function Body() {
-	const item = useSelector((store) => store.products?.targetProduct);
+	const item = useSelector((store) => store?.products?.targetProduct);
 
 	const appRouter = createBrowserRouter([
 		{

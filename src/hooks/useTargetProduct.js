@@ -12,7 +12,7 @@ const useTargetProduct = (productId) => {
 	const getProductInfo = () => {
 		Searches(`/product-details?asin=${productId}`)
 			.then((response) => {
-				dispatch(addTargetProduct(response.data?.data));
+				dispatch(addTargetProduct(response?.data?.data));
 			})
 			.catch((error) => {
 				dispatch(logErrors(error));

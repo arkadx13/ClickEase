@@ -18,7 +18,7 @@ const getSuggestions = async (keyword, dispatch, navigate) => {
 	Searches(`/search?query=${gptResult.choices?.[0]?.message?.content}`)
 		.then((response) => {
 			dispatch(removeSuggestions());
-			dispatch(addSuggestions(response.data?.data?.products));
+			dispatch(addSuggestions(response?.data?.data?.products));
 		})
 		.catch((error) => {
 			dispatch(logErrors(error));

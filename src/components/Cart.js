@@ -11,9 +11,9 @@ import { toggleShowEmptyCartModal } from "../utils/modalSlice";
 
 const Cart = () => {
 	const dispatch = useDispatch();
-	const cart = useSelector((store) => store.cart?.cart);
+	const cart = useSelector((store) => store?.cart?.cart);
 	const showEmptyCartModal = useSelector(
-		(store) => store.modal?.showEmptyCartModal
+		(store) => store?.modal?.showEmptyCartModal
 	);
 
 	const totalPrice = cart.reduce((acc, currItem) => {

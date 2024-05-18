@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 
 const Footer = () => {
-	const user = useSelector((store) => store.user);
+	const user = useSelector((store) => store?.user);
 	return (
 		<footer className="text-center bg-light p-4 w-100 align-self-end mt-4">
 			{/* Only show image credit when logged out */}
