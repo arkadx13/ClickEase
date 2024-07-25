@@ -95,6 +95,7 @@ const ProductDetails = () => {
 					);
 					setIsAddingToCart(null);
 					formRef.current.reset();
+					window.scrollTo(0, 0); // Scrolls to the top of the window
 				})
 				.catch((error) => {
 					dispatch(logErrors(error));
