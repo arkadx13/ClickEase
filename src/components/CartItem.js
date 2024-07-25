@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { toggleDeleteItemModal } from "../utils/modalSlice";
 import { changeDeleteIndex, deleteCartItem } from "../utils/cartSlice";
 import DeleteModal from "./DeleteModal";
+import { useSnackbar } from "notistack";
 
 const CartItem = ({ item, index }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { enqueueSnackbar } = useSnackbar();
 	const { product, color, size, quantity } = item;
 	const showDeleteItemModal = useSelector(
 		(store) => store?.modal?.showDeleteItemModal
@@ -33,6 +35,10 @@ const CartItem = ({ item, index }) => {
 						dispatch(deleteCartItem(deleteIndex));
 						dispatch(toggleDeleteItemModal(false));
 						dispatch(changeDeleteIndex(null));
+
+						enqueueSnackbar(
+							`${product.product_title} removed from cart`
+						);
 					}}
 					message={"Are you sure you want to delete this item?"}
 				/>

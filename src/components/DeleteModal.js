@@ -10,11 +10,8 @@ const DeleteModal = ({ show, deleteAction, message }) => {
 	const dispatch = useDispatch();
 
 	const handleClose = () => {
-		// if (message.includes("Cart")) {
 		dispatch(toggleShowEmptyCartModal(false));
-		// } else {
 		dispatch(toggleDeleteItemModal(false));
-		// }
 	};
 
 	return (

@@ -8,7 +8,6 @@ import {
 	OverlayTrigger,
 	Popover,
 	Spinner,
-	Toast,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { changeImageIndex, toggleProductModal } from "../utils/modalSlice";
@@ -44,7 +43,7 @@ const ProductDetails = () => {
 	// Use for resetting the form after submission
 	const formRef = useRef(null);
 
-	// Toast toggle
+	// Toast for adding item to cart
 	const { enqueueSnackbar } = useSnackbar();
 
 	// Loading add to cart button

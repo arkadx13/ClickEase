@@ -8,9 +8,11 @@ import { emptyCart } from "../utils/cartSlice";
 import { useEffect } from "react";
 import DeleteModal from "./DeleteModal";
 import { toggleShowEmptyCartModal } from "../utils/modalSlice";
+import { useSnackbar } from "notistack";
 
 const Cart = () => {
 	const dispatch = useDispatch();
+	const { enqueueSnackbar } = useSnackbar();
 	const cart = useSelector((store) => store?.cart?.cart);
 	const showEmptyCartModal = useSelector(
 		(store) => store?.modal?.showEmptyCartModal
@@ -98,6 +100,7 @@ const Cart = () => {
 						dispatch(emptyCart());
 						dispatch(toggleShowEmptyCartModal(false));
 						window.scrollTo(0, 0); // Scrolls to the top of the window
+						enqueueSnackbar("All items removed from cart");
 					}}
 					message={
 						"Are you sure you want to delete all items in Cart?"
