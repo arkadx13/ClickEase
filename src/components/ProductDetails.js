@@ -19,6 +19,7 @@ import { addToCart } from "../utils/cartSlice";
 import Searches from "../api/Searches";
 import { logErrors } from "../utils/searchSlice";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 const ProductDetails = () => {
 	const dispatch = useDispatch();
@@ -30,7 +31,6 @@ const ProductDetails = () => {
 	);
 	//Product ID
 	const [product, setProduct] = useState(item.asin);
-	const [productTitle, setProductTitle] = useState("");
 
 	//Product Color
 	const [color, setColor] = useState(null);
@@ -45,7 +45,7 @@ const ProductDetails = () => {
 	const formRef = useRef(null);
 
 	// Toast toggle
-	const [showToast, setShowToast] = useState(false);
+	const { enqueueSnackbar } = useSnackbar();
 
 	// Loading add to cart button
 	const [isAddingTocart, setIsAddingToCart] = useState(false);
@@ -82,8 +82,18 @@ const ProductDetails = () => {
 					setColor(null);
 					setSize(null);
 					setIsQuantitytFilled(null);
-					setProductTitle(response?.data?.data?.product_title);
-					setShowToast(true);
+					// Show Toast for added item to cart
+					enqueueSnackbar(
+						`${
+							response?.data?.data?.product_title.length > 35
+								? response?.data?.data?.product_title.slice(
+										0,
+										34
+								  ) + "..."
+								: response?.data?.data?.product_title
+						} successfully added to cart!`,
+						{ variant: "success" }
+					);
 					setIsAddingToCart(null);
 					formRef.current.reset();
 				})
@@ -118,31 +128,6 @@ const ProductDetails = () => {
 		<ShimmerProductDetails />
 	) : (
 		<div className="d-flex flex-column justify-content-between position-relative">
-			{showToast && (
-				<Toast
-					bg="success"
-					style={{
-						position: "absolute",
-						bottom: "300px",
-						right: "10px",
-						zIndex: "9999",
-						float: "right",
-						height: "auto",
-					}}
-					onClose={() => setShowToast(false)}
-					show={showToast}
-					delay={3000}
-					autohide
-				>
-					<Toast.Header>
-						<strong className="me-auto">ClickEase</strong>
-						<small>a few seconds ago</small>
-					</Toast.Header>
-					<Toast.Body className="text-white">
-						{productTitle} added to cart!
-					</Toast.Body>
-				</Toast>
-			)}
 			<Header />
 			{item && (
 				<Container
